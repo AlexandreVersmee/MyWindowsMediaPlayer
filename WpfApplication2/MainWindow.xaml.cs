@@ -9,8 +9,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
@@ -29,8 +27,11 @@ namespace WpfApplication2
 
         private void play_Click(object sender, RoutedEventArgs e)
         {
+
+
             MyMediaPlayer.LoadedBehavior = MediaState.Manual;
             MyMediaPlayer.Play();
+
         }
 
         private void mute_Click(object sender, RoutedEventArgs e)
@@ -54,7 +55,13 @@ namespace WpfApplication2
 
         private void fullScreen_Click(object sender, RoutedEventArgs e)
         {
-        //  MyMediaPlayer.
+          
+      
+        }
+
+        private void stop_Click(object sender, RoutedEventArgs e)
+        {
+            MyMediaPlayer.Stop();
         }
     }
 }

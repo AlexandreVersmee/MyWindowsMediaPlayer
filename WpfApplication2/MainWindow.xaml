@@ -7,15 +7,17 @@
             <RowDefinition Height="320*"/>
             <RowDefinition Height="50*"/>
         </Grid.RowDefinitions>
-        
-        <MediaElement x:Name="MyMediaPlayer" Source="uri" Width="200"/>
-          
+
+        <MediaElement x:Name="MyMediaPlayer" Source="uri" Margin="10,1,10.4,42.4" Grid.RowSpan="2"/>
+
+
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
             <Button x:Name="play" Content="play"  VerticalAlignment="Top" Height="25" Width="50" Margin="5" Click="play_Click"/>
             <Button x:Name="fullScreen" Content="full screen"  VerticalAlignment="Top" Height="25" Width="50" Margin="5" Click="fullScreen_Click" />
             <Button x:Name="open" Content="open"  VerticalAlignment="Top" Height="25" Width="50" Margin="5" Click="open_Click" />
-            <Button x:Name="mute" Content="mute"  VerticalAlignment="Top" Height="25" Width="50" Margin="5,6,5,0" Click="mute_Click" />
         </StackPanel>
+        <Button x:Name="mute" Content="mute"  VerticalAlignment="Top" Height="25" Margin="114,7.8,354.4,0" Click="mute_Click" Grid.Row="1" />
+        <Button x:Name="stop" Content="stop"  VerticalAlignment="Top" Height="25" Margin="354,9.8,114.4,0" Click="stop_Click" Grid.Row="1" RenderTransformOrigin="0.504,0.5" />
 
     </Grid>
 </Window>

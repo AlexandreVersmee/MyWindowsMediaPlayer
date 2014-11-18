@@ -14,3 +14,13 @@ c:\users\damien\documents\visual studio 2013\Projects\WpfApplication2\WpfApplica
 F:\MyWindowsMediaPlayer\WpfApplication2\bin\Debug\WpfApplication2.exe.config
 F:\MyWindowsMediaPlayer\WpfApplication2\obj\Debug\WpfApplication2.exe
 F:\MyWindowsMediaPlayer\WpfApplication2\obj\Debug\WpfApplication2.pdb
+F:\MyWindowsMediaPlayer\WpfApplication2\obj\Debug\WpfApplication2.csprojResolveAssemblyReference.cache
+F:\MyWindowsMediaPlayer\WpfApplication2\obj\Debug\MainWindow.baml
+F:\MyWindowsMediaPlayer\WpfApplication2\obj\Debug\MainWindow.g.cs
+F:\MyWindowsMediaPlayer\WpfApplication2\obj\Debug\App.g.cs
+F:\MyWindowsMediaPlayer\WpfApplication2\obj\Debug\WpfApplication2_MarkupCompile.cache
+F:\MyWindowsMediaPlayer\WpfApplication2\obj\Debug\WpfApplication2.g.resources
+F:\MyWindowsMediaPlayer\WpfApplication2\obj\Debug\WpfApplication2.Properties.Resources.resources
+F:\MyWindowsMediaPlayer\WpfApplication2\obj\Debug\WpfApplication2.csproj.GenerateResource.Cache
+F:\MyWindowsMediaPlayer\WpfApplication2\bin\Debug\WpfApplication2.exe
+F:\MyWindowsMediaPlayer\WpfApplication2\bin\Debug\WpfApplication2.pdb
