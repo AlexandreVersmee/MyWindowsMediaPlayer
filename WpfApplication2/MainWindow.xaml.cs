@@ -20,17 +20,27 @@ namespace WpfApplication2
     /// </summary>
     public partial class MainWindow : Window
     {
+        Boolean isPlay;
+
         public MainWindow()
         {
             InitializeComponent();
+            Boolean isPlay = false;
         }
 
         private void play_Click(object sender, RoutedEventArgs e)
         {
-
-
-            MyMediaPlayer.LoadedBehavior = MediaState.Manual;
-            MyMediaPlayer.Play();
+            if (isPlay == false)
+            {
+                MyMediaPlayer.LoadedBehavior = MediaState.Manual;
+                MyMediaPlayer.Play();
+                isPlay = true;
+            }
+            else
+            {
+                isPlay = false;
+                MyMediaPlayer.Pause();
+            }
 
         }
 
