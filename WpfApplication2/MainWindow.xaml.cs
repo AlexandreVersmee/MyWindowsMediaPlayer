@@ -73,5 +73,10 @@ namespace WpfApplication2
         {
             MyMediaPlayer.Stop();
         }
+
+        private void ChangeMediaVolume(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            MyMediaPlayer.Volume = (double)volumeSlider.Value;
+        }
     }
 }

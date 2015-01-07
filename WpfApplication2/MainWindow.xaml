@@ -8,14 +8,18 @@
             <RowDefinition Height="50*"/>
         </Grid.RowDefinitions>
 
-        <MediaElement x:Name="MyMediaPlayer" Source="uri" Margin="10,1,10.4,42.4" Grid.RowSpan="2"/>
+        <MediaElement x:Name="MyMediaPlayer" Source="uri" Margin="10,1,10.4,58.2"/>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" Margin="164,2.8,53.4,-2.6">
             <Button x:Name="play" Content="play" VerticalAlignment="Top" Height="25" Width="50" Margin="5" Click="play_Click"/>
             <Button x:Name="fullScreen" Content="full screen"  VerticalAlignment="Top" Height="25" Width="50" Margin="5" Click="fullScreen_Click" />
             <Button x:Name="open" Content="open"  VerticalAlignment="Top" Height="25" Width="50" Margin="5" Click="open_Click" />
+
+            <TextBlock Foreground="White" VerticalAlignment="Center" Margin="5"  >Volume</TextBlock>
+            <Slider x:Name="volumeSlider" VerticalAlignment="Center" ValueChanged="ChangeMediaVolume" Minimum="0" Maximum="1" Value="0.5" Width="70" Margin="0,10,0,10.2"/>
+
         </StackPanel>
         <Button x:Name="mute" Content="mute"  VerticalAlignment="Top" Height="25" Margin="114,7.8,354.4,0" Click="mute_Click" Grid.Row="1" />
-        <Button x:Name="stop" Content="stop"  VerticalAlignment="Top" Height="25" Margin="354,9.8,114.4,0" Click="stop_Click" Grid.Row="1" RenderTransformOrigin="0.504,0.5" />
+        <Button x:Name="stop" Content="stop"  VerticalAlignment="Top" Height="25" Margin="59,9.8,409.4,0" Click="stop_Click" Grid.Row="1" RenderTransformOrigin="0.504,0.5" />
     </Grid>
 </Window>
