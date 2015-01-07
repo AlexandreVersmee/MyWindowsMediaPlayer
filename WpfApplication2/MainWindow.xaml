@@ -10,26 +10,18 @@
 
         <MediaElement x:Name="MyMediaPlayer" Source="uri" Margin="10,1,10.4,58.2"/>
 
-<<<<<<< HEAD
-        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" Margin="164,2.8,53.4,-2.6">
-            <Button x:Name="play" Content="play" VerticalAlignment="Top" Height="25" Width="50" Margin="5" Click="play_Click"/>
-            <Button x:Name="fullScreen" Content="full screen"  VerticalAlignment="Top" Height="25" Width="50" Margin="5" Click="fullScreen_Click" />
-            <Button x:Name="open" Content="open"  VerticalAlignment="Top" Height="25" Width="50" Margin="5" Click="open_Click" />
+        <TextBlock Foreground="Black" VerticalAlignment="Center" Margin="327,236,-317.6,27.2"  >Volume</TextBlock>
+        <Slider Name="volumeSlider" VerticalAlignment="Center" ValueChanged="ChangeMediaVolume" Minimum="0" Maximum="1" Value="0.5" Width="115" Height="20" Margin="327,249,76.4,10.2" RenderTransformOrigin="0.061,0.07"/>
 
-            <TextBlock Foreground="White" VerticalAlignment="Center" Margin="5"  >Volume</TextBlock>
-            <Slider x:Name="volumeSlider" VerticalAlignment="Center" ValueChanged="ChangeMediaVolume" Minimum="0" Maximum="1" Value="0.5" Width="70" Margin="0,10,0,10.2"/>
 
-        </StackPanel>
-        <Button x:Name="mute" Content="mute"  VerticalAlignment="Top" Height="25" Margin="114,7.8,354.4,0" Click="mute_Click" Grid.Row="1" />
-        <Button x:Name="stop" Content="stop"  VerticalAlignment="Top" Height="25" Margin="59,9.8,409.4,0" Click="stop_Click" Grid.Row="1" RenderTransformOrigin="0.504,0.5" />
-=======
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="137,269,141.4,0.4" Grid.RowSpan="2" Width="240">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="61,257,217.4,12.4" Grid.RowSpan="2" Width="240">
             <Button x:Name="mute" Content="mute" Height="25" Width="50" Margin="5" Click="mute_Click" ToolTip="muet" />
             <Button x:Name="play" Content="play" VerticalAlignment="Top" Height="25" Width="50" Margin="5" Click="play_Click"/>
             <Button x:Name="open" Content="open" VerticalAlignment="Top" Height="25" Width="50" Margin="5" Click="open_Click" />
             <Button x:Name="stop" Content="stop" Height="25" Width="50" Margin="5,5,5,0" Click="stop_Click" />
+
         </StackPanel>
         <Button x:Name="fullScreen" Content="^"  VerticalAlignment="Top" Height="20" Margin="485,12.8,10.4,0" Click="fullScreen_Click" Grid.Row="1" ToolTip="Plein Ecran" />
->>>>>>> fa21c461dcc5826ef424084f8b523640068a93db
+
     </Grid>
 </Window>
