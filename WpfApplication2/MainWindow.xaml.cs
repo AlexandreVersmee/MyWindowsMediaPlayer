@@ -70,6 +70,12 @@ namespace WpfApplication2
                 string path = toto.FileName;
                 MyMediaPlayer.Source = new Uri(path);
             }
+            if (isPlay == false)
+            {
+
+                MyMediaPlayer.Play();
+                isPlay = true;
+            }
         }
 
         private void fullScreen_Click(object sender, RoutedEventArgs e)
