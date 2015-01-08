@@ -7,11 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 
 namespace WpfApplication2
@@ -23,6 +25,7 @@ namespace WpfApplication2
     {
         Boolean isPlay;
         Boolean isReplay;
+        private bool userIsDraggingSlider = false;
 
         public MainWindow()
         {
@@ -30,12 +33,41 @@ namespace WpfApplication2
             MyMediaPlayer.MediaEnded += new RoutedEventHandler(MyMediaPlayer_MediaEnded);
             MyMediaPlayer.Drop += new DragEventHandler(MyMediaPlayer_Drop);
             MyMediaPlayer.MediaFailed += MyMediaPlayer_MediaFailed;
+            MyMediaPlayer.MediaOpened += MyMediaPlayer_MediaOpened;
 
             MyMediaPlayer.LoadedBehavior = MediaState.Manual;
             MyMediaPlayer.UnloadedBehavior = MediaState.Manual;
 
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_Tick;
+            timer.Start();
+
+
             isPlay = false;
             this.isReplay = false;
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            if ((MyMediaPlayer.Source != null) && (MyMediaPlayer.NaturalDuration.HasTimeSpan) && (!userIsDraggingSlider))
+            {
+                sliProgress.Minimum = 0;
+                sliProgress.Maximum = MyMediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
+                sliProgress.Value = MyMediaPlayer.Position.TotalSeconds;
+            }
+        }
+
+        void MyMediaPlayer_MediaOpened(object sender, RoutedEventArgs e)
+        {
+                if (MyMediaPlayer.NaturalDuration.HasTimeSpan)
+                {
+                    TimeSpan ts = MyMediaPlayer.NaturalDuration.TimeSpan;
+                    sliProgress.Maximum = ts.TotalSeconds;
+                    sliProgress.SmallChange = 1;
+                    sliProgress.LargeChange = Math.Min(10, ts.Seconds / 10);
+                }
+                MyMediaPlayer.Visibility = Visibility.Visible;
         }
 
         private void play_Click(object sender, RoutedEventArgs e)
@@ -76,6 +108,7 @@ namespace WpfApplication2
             }
             if (isPlay == false)
             {
+            
 
                 MyMediaPlayer.Play();
                 isPlay = true;
@@ -90,7 +123,14 @@ namespace WpfApplication2
 
         private void stop_Click(object sender, RoutedEventArgs e)
         {
-            MyMediaPlayer.Stop();
+            try
+            {
+                MyMediaPlayer.Stop();
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
         }
 
         private void ChangeMediaVolume(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -141,5 +181,24 @@ namespace WpfApplication2
             }
 
         }
+
+        private void sliProgress_DragStarted(object sender, DragStartedEventArgs e)   
+        {
+            
+
+            userIsDraggingSlider = true;
+        }
+
+        private void sliProgress_DragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            userIsDraggingSlider = false;
+            MyMediaPlayer.Position = TimeSpan.FromSeconds(sliProgress.Value);
+        }
+
+        private void sliProgress_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            lblProgressStatus.Text = TimeSpan.FromSeconds(sliProgress.Value).ToString(@"hh\:mm\:ss");
+        }
+
     }
 }

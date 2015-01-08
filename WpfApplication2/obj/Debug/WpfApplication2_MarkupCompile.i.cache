@@ -4,15 +4,26 @@
 winexe
 C#
 .cs
+<<<<<<< HEAD
 C:\Users\versme_a\Documents\GitHub\MyWindowsMediaPlayer\WpfApplication2\obj\Debug\
+=======
+F:\MyWindowsMediaPlayer\WpfApplication2\obj\Debug\
+>>>>>>> origin/master
 WpfApplication2
 none
 false
 DEBUG;TRACE
+<<<<<<< HEAD
 C:\Users\versme_a\Documents\GitHub\MyWindowsMediaPlayer\WpfApplication2\App.xaml
 11151548125
 
 91949325102
+=======
+F:\MyWindowsMediaPlayer\WpfApplication2\App.xaml
+11151548125
+
+9-1480780823
+>>>>>>> origin/master
 12-1401562060
 MainWindow.xaml;
 
