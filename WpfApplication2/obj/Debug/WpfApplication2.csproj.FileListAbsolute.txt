@@ -40,3 +40,6 @@ C:\Users\bovier_m\Documents\GitHub\MyWindowsMediaPlayer\WpfApplication2\obj\Debu
 C:\Users\versme_a\Documents\MyWindowsMediaPlayer\WpfApplication2\bin\Debug\WpfApplication2.exe.config
 C:\Users\versme_a\Documents\MyWindowsMediaPlayer\WpfApplication2\obj\Debug\WpfApplication2.exe
 C:\Users\versme_a\Documents\MyWindowsMediaPlayer\WpfApplication2\obj\Debug\WpfApplication2.pdb
+C:\Users\versme_a\Documents\GitHub\MyWindowsMediaPlayer\WpfApplication2\bin\Debug\WpfApplication2.exe.config
+C:\Users\versme_a\Documents\GitHub\MyWindowsMediaPlayer\WpfApplication2\obj\Debug\WpfApplication2.exe
+C:\Users\versme_a\Documents\GitHub\MyWindowsMediaPlayer\WpfApplication2\obj\Debug\WpfApplication2.pdb
