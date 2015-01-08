@@ -37,6 +37,3 @@ C:\Users\bovier_m\Documents\GitHub\MyWindowsMediaPlayer\WpfApplication2\obj\Debu
 C:\Users\bovier_m\Documents\GitHub\MyWindowsMediaPlayer\WpfApplication2\obj\Debug\WpfApplication2.g.resources
 C:\Users\bovier_m\Documents\GitHub\MyWindowsMediaPlayer\WpfApplication2\obj\Debug\WpfApplication2.Properties.Resources.resources
 C:\Users\bovier_m\Documents\GitHub\MyWindowsMediaPlayer\WpfApplication2\obj\Debug\WpfApplication2.csproj.GenerateResource.Cache
-C:\Users\versme_a\Documents\MyWindowsMediaPlayer\WpfApplication2\bin\Debug\WpfApplication2.exe.config
-C:\Users\versme_a\Documents\MyWindowsMediaPlayer\WpfApplication2\obj\Debug\WpfApplication2.exe
-C:\Users\versme_a\Documents\MyWindowsMediaPlayer\WpfApplication2\obj\Debug\WpfApplication2.pdb
