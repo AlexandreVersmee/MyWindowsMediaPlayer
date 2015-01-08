@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,18 +22,26 @@ namespace WpfApplication2
     public partial class MainWindow : Window
     {
         Boolean isPlay;
+        Boolean isReplay;
 
         public MainWindow()
         {
             InitializeComponent();
-            Boolean isPlay = false;
+            MyMediaPlayer.MediaEnded += new RoutedEventHandler(MyMediaPlayer_MediaEnded);
+            MyMediaPlayer.MediaFailed += MyMediaPlayer_MediaFailed;
+
+            MyMediaPlayer.LoadedBehavior = MediaState.Manual;
+            MyMediaPlayer.UnloadedBehavior = MediaState.Manual;
+
+            isPlay = false;
+            this.isReplay = false;
         }
 
         private void play_Click(object sender, RoutedEventArgs e)
         {
             if (isPlay == false)
             {
-                MyMediaPlayer.LoadedBehavior = MediaState.Manual;
+
                 MyMediaPlayer.Play();
                 isPlay = true;
             }
@@ -77,6 +86,37 @@ namespace WpfApplication2
         private void ChangeMediaVolume(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             MyMediaPlayer.Volume = (double)volumeSlider.Value;
+        }
+
+        private void replay_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.isReplay == false)
+                this.isReplay = true;
+            else
+                this.isReplay = false;
+
+        }
+
+        private void MyMediaPlayer_MediaFailed(object sender, ExceptionRoutedEventArgs e)
+        {
+            Debug.WriteLine("fail");
+        }
+
+        private void MyMediaPlayer_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (this.isReplay == true)
+                {
+                    MyMediaPlayer.Position = TimeSpan.Zero;
+                    MyMediaPlayer.Play();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+
         }
     }
 }
