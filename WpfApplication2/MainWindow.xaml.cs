@@ -31,6 +31,7 @@ namespace WpfApplication2
         {
             InitializeComponent();
             MyMediaPlayer.MediaEnded += new RoutedEventHandler(MyMediaPlayer_MediaEnded);
+            MyMediaPlayer.Drop += new DragEventHandler(MyMediaPlayer_Drop);
             MyMediaPlayer.MediaFailed += MyMediaPlayer_MediaFailed;
             MyMediaPlayer.MediaOpened += MyMediaPlayer_MediaOpened;
 
@@ -73,12 +74,15 @@ namespace WpfApplication2
         {
             if (isPlay == false)
             {
-
                 MyMediaPlayer.Play();
+                play.Content = "pause";
+                play.ToolTip = "Suspendre";
                 isPlay = true;
             }
             else
             {
+                play.Content = "play";
+                play.ToolTip = "Lire";
                 isPlay = false;
                 MyMediaPlayer.Pause();
             }
@@ -145,9 +149,22 @@ namespace WpfApplication2
 
         private void MyMediaPlayer_MediaFailed(object sender, ExceptionRoutedEventArgs e)
         {
-            Debug.WriteLine("fail");
+            Debug.WriteLine(e);
         }
 
+        private void MyMediaPlayer_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string [] filePaths = (string [])(e.Data.GetData(DataFormats.FileDrop));
+                MyMediaPlayer.Source = new Uri(filePaths[0]);
+            }
+            if (isPlay == false)
+            {
+                MyMediaPlayer.Play();
+                isPlay = true;
+            }
+        }
         private void MyMediaPlayer_MediaEnded(object sender, RoutedEventArgs e)
         {
             try

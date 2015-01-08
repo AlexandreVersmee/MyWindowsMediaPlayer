@@ -1,8 +1,13 @@
 ﻿<Window x:Class="WpfApplication2.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+<<<<<<< HEAD
         Title="MainWindow" Height="431.6" Width="773.4">
     <Grid Margin="0,0,0.2,0">
+=======
+        Title="MainWindow" Height="350" Width="525" AllowDrop="True" Drop="MyMediaPlayer_Drop" >
+    <Grid>
+>>>>>>> 23a9b229ccc1fb8191f2d9cca25a77e9a4e93c0b
         <Grid.RowDefinitions>
             <RowDefinition Height="320*"/>
             <RowDefinition Height="50*"/>
@@ -14,7 +19,7 @@
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,10,10" Width="757" Height="114" RenderTransformOrigin="0.498,0.463" Grid.RowSpan="2">
 
             <Button x:Name="mute" Content="mute" Height="25" Width="50" Margin="138,40,0,0" Click="mute_Click" ToolTip="muet" />
-            <Button x:Name="play" Content="play" Height="25" Width="50" Margin="10" Click="play_Click"/>
+            <Button x:Name="play" Content="play" Height="25" Width="50" Margin="10" Click="play_Click" ToolTip="Lire"/>
             <Button x:Name="open" Content="open" Height="25" Width="50" Margin="10,23,10,22.4" Click="open_Click" />
             <Button x:Name="stop" Content="stop" Height="25" Width="50" Margin="10,40,0,0" Click="stop_Click" />
             <Slider x:Name="volumeSlider" VerticalAlignment="Bottom" ValueChanged="ChangeMediaVolume" ToolTip="Volume" Minimum="0" Maximum="1" Value="0.5" Width="115" Height="20" RenderTransformOrigin="0.061,0.07" Margin="0,0,0,0.6"/>
