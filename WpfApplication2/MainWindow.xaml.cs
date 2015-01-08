@@ -42,12 +42,15 @@ namespace WpfApplication2
         {
             if (isPlay == false)
             {
-
                 MyMediaPlayer.Play();
+                play.Content = "pause";
+                play.ToolTip = "Suspendre";
                 isPlay = true;
             }
             else
             {
+                play.Content = "play";
+                play.ToolTip = "Lire";
                 isPlay = false;
                 MyMediaPlayer.Pause();
             }
