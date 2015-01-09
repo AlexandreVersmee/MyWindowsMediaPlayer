@@ -49,7 +49,7 @@ namespace MyWindowsMediaPlayer
                 string[] filePaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
                 MyMediaPlayer.Source = new Uri(filePaths[0]);
             }
-            if (Play.ToolTip == "Lire")
+            if (!this._isPlaying)
             {
                 MyMediaPlayer.Play();
                 Play.ToolTip = "Suspendre";
