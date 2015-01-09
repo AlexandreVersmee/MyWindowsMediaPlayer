@@ -14,12 +14,15 @@
             <GradientStop Color="#FF79BCFF" Offset="0.466"/>
         </LinearGradientBrush>
     </Window.Background>
+
+
     <Grid Margin="0,0,255,0">
         <Grid x:Name="Layout" Margin="0,0,-255,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="8*"/>
                 <ColumnDefinition Width="39*"/>
-                <ColumnDefinition Width="422"/>
+                <ColumnDefinition Width="281"/>
+                <ColumnDefinition Width="141"/>
                 <ColumnDefinition Width="39*"/>
                 <ColumnDefinition Width="9*"/>
             </Grid.ColumnDefinitions>
@@ -32,7 +35,7 @@
             </Grid.RowDefinitions>
 
             <!-- Menu -->
-            <Menu IsMainMenu="True" Grid.ColumnSpan="5" Background="#FF191919" HorizontalContentAlignment="Stretch" Margin="0,1,0,0" VerticalContentAlignment="Stretch" MaxHeight="30" MinHeight="22">
+            <Menu IsMainMenu="True" Grid.ColumnSpan="6" Background="#FF191919" HorizontalContentAlignment="Stretch" Margin="0,1,0,0" VerticalContentAlignment="Stretch" MaxHeight="30" MinHeight="22">
                 <Menu.ItemsPanel>
                     <ItemsPanelTemplate>
                         <DockPanel HorizontalAlignment="Stretch"/>
@@ -49,6 +52,14 @@
                     <MenuItem Header="_Add files in playlist" Foreground="Black"/>
                     <MenuItem Header="_Add current file in playlist" Foreground="Black" Click="AddInPlayList"/>
                 </MenuItem>
+                <MenuItem Foreground="Snow" HorizontalAlignment="left" Click="ToggleLibrary">
+                    <MenuItem.Header>
+                        <StackPanel>
+                            <Image x:Name="ImgLibrary" Width="20" Height="20" Source="../Images/LibraryOff.png" />
+                            <ContentPresenter Content="Reports" />
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
                 <MenuItem  Foreground="Snow" HorizontalAlignment="Right" Click="TogglePlayList">
                     <MenuItem.Header>
                         <StackPanel>
@@ -56,22 +67,21 @@
                             <ContentPresenter Content="Reports" />
                         </StackPanel>
                     </MenuItem.Header>
-
                 </MenuItem>
             </Menu>
 
 
             <!-- Media Element -->
-            <MediaElement x:Name="MyMediaPlayer" Grid.ColumnSpan="3" Grid.Column="1" MinWidth="497" MinHeight="230" Panel.ZIndex="1" Margin="0,10,0,0" Grid.Row="1" Visibility="Hidden"/>
+            <MediaElement x:Name="MyMediaPlayer" Grid.ColumnSpan="4" Grid.Column="1" MinWidth="497" MinHeight="230" Panel.ZIndex="1" Margin="0,10,0,0" Grid.Row="1"/>
 
             <!-- Slider Seeker -->
-            <Slider x:Name="SliderProgress" MinWidth="490" MinHeight="22" ToolTip="Rechercher" HorizontalContentAlignment="Stretch" Grid.ColumnSpan="3" Grid.Row="2" Thumb.DragStarted="SliderProgressDragStarted"  Thumb.DragCompleted="SliderProgressDragCompleted" ValueChanged="SliderProgressValueChanged" Margin="9,0,1,4" Grid.Column="1" Height="22" VerticalAlignment="Bottom"/>
+            <Slider x:Name="SliderProgress" MinWidth="490" MinHeight="22" ToolTip="Rechercher" HorizontalContentAlignment="Stretch" Grid.ColumnSpan="4" Grid.Row="2" Thumb.DragStarted="SliderProgressDragStarted"  Thumb.DragCompleted="SliderProgressDragCompleted" ValueChanged="SliderProgressValueChanged" Margin="9,0,1,4" Grid.Column="1" Height="22" VerticalAlignment="Bottom"/>
 
             <!-- Slider Timer -->
-            <TextBlock x:Name="lblProgressStatus" Grid.Column="2" Margin="10,15,362,15" Grid.Row="3" Foreground="#FFECE2E2" TextAlignment="Center" Text="00:00:00"/>
+            <TextBlock x:Name="lblProgressStatus" Grid.Column="2" Margin="10,15,221,15" Grid.Row="3" Foreground="#FFECE2E2" TextAlignment="Center" Text="00:00:00"/>
 
             <!-- Background Buttons -->
-            <Border BorderThickness="2" Grid.Row="3" CornerRadius="25" BorderBrush="White" Grid.Column="2" Background="#FFA09696" Margin="65,0,0,0">
+            <Border BorderThickness="2" Grid.Row="3" CornerRadius="25" BorderBrush="White" Grid.Column="2" Background="#FFA09696" Margin="65,0,0,0" Grid.ColumnSpan="2">
                 <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="73,5,0,5" Stroke="#FF938A8A" Width="1" RenderTransformOrigin="0.5,0.5">
                     <Rectangle.RenderTransform>
                         <TransformGroup>
@@ -113,7 +123,7 @@
                 </Button.RenderTransform>
                 <Image Source="/MyWindowsMediaPlayer;component/Images/Left.png" />
             </Button>
-            <Button x:Name="BtnPlay" HorizontalAlignment="Center" Height="41" Margin="195,2,186,2" VerticalAlignment="Center" Width="41" BorderBrush="White" Panel.ZIndex="1" OpacityMask="Black" ToolTip="Lire" Grid.Column="2" Grid.Row="3" BorderThickness="0" Background="{x:Null}" Click="PlayClick" RenderTransformOrigin="0.5,0.5">
+            <Button x:Name="BtnPlay" HorizontalAlignment="Center" Height="41" Margin="195,2,45,2" VerticalAlignment="Center" Width="41" BorderBrush="White" Panel.ZIndex="1" OpacityMask="Black" ToolTip="Lire" Grid.Column="2" Grid.Row="3" BorderThickness="0" Background="{x:Null}" Click="PlayClick" RenderTransformOrigin="0.5,0.5">
                 <Button.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -135,12 +145,12 @@
                 </Button.RenderTransform>
                 <Image Source="/MyWindowsMediaPlayer;component/Images/Right.png" />
             </Button>
-            <Button x:Name="BtnSound" Grid.Column="2" HorizontalAlignment="Left" Height="26" Margin="291,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="28" BorderBrush="White" BorderThickness="0" Background="{x:Null}" Click="MuteClick" ToolTip="Volume">
+            <Button x:Name="BtnSound" Grid.Column="3" HorizontalAlignment="Left" Height="26" Margin="10,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="28" BorderBrush="White" BorderThickness="0" Background="{x:Null}" Click="MuteClick" ToolTip="Volume">
                 <Image Source="../Images/Volume.png" />
             </Button>
 
             <!-- Volume -->
-            <Slider x:Name="SliderVolume" HorizontalAlignment="Center" Height="22" Margin="321,13,17,10" Width="84" ToolTip="Volume" Maximum="1" Value="1" VerticalAlignment="Center" Grid.Column="2" Grid.Row="3" MinHeight="22" MinWidth="83" ValueChanged="ChangeMediaVolume" IsSelectionRangeEnabled="True"  SelectionEnd="1">
+            <Slider x:Name="SliderVolume" HorizontalAlignment="Center" Height="22" Margin="40,13,17,10" Width="84" ToolTip="Volume" Maximum="1" Value="1" VerticalAlignment="Center" Grid.Column="3" Grid.Row="3" MinHeight="22" MinWidth="83" ValueChanged="ChangeMediaVolume" IsSelectionRangeEnabled="True"  SelectionEnd="1">
                 <Slider.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#00d2ff" />
                     <SolidColorBrush x:Key="{x:Static SystemColors.ControlDarkDarkBrushKey}" Color="Silver" />
@@ -148,13 +158,18 @@
             </Slider>
 
             <!-- Play List -->
-            <ListBox x:Name="PLayList" Margin="0,2,2,27" Panel.ZIndex="4" Grid.ColumnSpan="3" Grid.Column="2" Grid.Row="1" Background="#FFC7BFBF" Grid.RowSpan="2" MinWidth="175" MinHeight="250" ToolTip="Play List" HorizontalContentAlignment="Stretch" HorizontalAlignment="Right" BorderThickness="1" Width="175" Visibility="Hidden" >
+            <ListBox x:Name="PLayList" Margin="6,2,2,27" Panel.ZIndex="4" Grid.ColumnSpan="3" Grid.Column="3" Grid.Row="1" Background="#FFC7BFBF" Grid.RowSpan="2" MinWidth="175" MinHeight="250" ToolTip="Play List" HorizontalContentAlignment="Stretch" BorderThickness="1" Visibility="Hidden" >
                 <ListBox.Effect>
                     <DropShadowEffect Direction="247" Color="#FF4F4F4F" BlurRadius="8"/>
                 </ListBox.Effect>
             </ListBox>
 
+            <!-- Library Media -->
+            <ListBox x:Name="Library" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" Background="#FFC7BFBF" Panel.ZIndex="4" MinWidth="318" MinHeight="257" HorizontalContentAlignment="Stretch" Margin="2,2,4,27" Visibility="Hidden">
+                <ListBox.Effect>
+                    <DropShadowEffect Direction="247" Color="#FF4F4F4F" BlurRadius="8"/>
+                </ListBox.Effect>
+            </ListBox>
         </Grid>
-
     </Grid>
 </Window>
