@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
+using System.Windows.Threading;
+using System.Windows.Controls.Primitives;
 
 namespace MyWindowsMediaPlayer
 {
@@ -21,6 +23,8 @@ namespace MyWindowsMediaPlayer
     {
         private Boolean _isReplay;
         private Boolean _isPlaying;
+        private Boolean _userIsDraggingSlider = false;
+        private string _filter = "Video (*.avi, *.mp4, *.wmv)|*.avi;*.mp4;*.wmv |Audio (*.mp3)|*.mp3 |Pictures (*.jpg, *.bmp, *.png)|*.jpg;*.bmp;*.png ";
 
         public MainWindow()
         {
@@ -28,13 +32,29 @@ namespace MyWindowsMediaPlayer
             MyMediaPlayer.MediaEnded += new RoutedEventHandler(MyMediaPlayerMediaEnded);
             MyMediaPlayer.Drop += new DragEventHandler(MyMediaPlayerDrop);
             MyMediaPlayer.MediaFailed += MyMediaPlayerMediaFailed;
+            MyMediaPlayer.MediaOpened += MyMediaPlayerMediaOpened;
          
             MyMediaPlayer.LoadedBehavior = MediaState.Manual;
             MyMediaPlayer.UnloadedBehavior = MediaState.Manual;
-  
+
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timerTick;
+            timer.Start();
+
+
             this._isReplay = false;
             this._isPlaying = false;
         }
+
+        /* Playlist Function */
+        #region Playlist Function
+
+
+
+
+        #endregion
+
 
         /* Media Element Functions */
         #region Media Element Functions
@@ -69,11 +89,34 @@ namespace MyWindowsMediaPlayer
             {
                 System.Diagnostics.Debug.WriteLine(ex);
             }
-
         }
+        private void MyMediaPlayerMediaOpened(object sender, RoutedEventArgs e)
+        {
+            if (MyMediaPlayer.NaturalDuration.HasTimeSpan)
+            {
+                TimeSpan ts = MyMediaPlayer.NaturalDuration.TimeSpan;
+                SliderProgress.Maximum = ts.TotalSeconds;
+                SliderProgress.SmallChange = 1;
+                SliderProgress.LargeChange = Math.Min(10, ts.Seconds / 10);
+            }
+        //            MyMediaPlayer.Visibility = Visibility.Visible;
+        }
+
         #endregion
 
         /* Slider Time Function */
+
+        #region Slider Time Function
+        private void timerTick(object sender, EventArgs e)
+        {
+            if ((MyMediaPlayer.Source != null) && (MyMediaPlayer.NaturalDuration.HasTimeSpan) && (!_userIsDraggingSlider))
+            {
+                SliderProgress.Minimum = 0;
+                SliderProgress.Maximum = MyMediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
+                SliderProgress.Value = MyMediaPlayer.Position.TotalSeconds;
+            }
+        }
+        #endregion
 
         /* Buttons Functions  */
         #region Buttons Functions
@@ -117,6 +160,10 @@ namespace MyWindowsMediaPlayer
         {
             OpenFileDialog toto = new OpenFileDialog();
 
+            toto.Filter = _filter;
+            toto.FilterIndex = 1;
+                
+
             toto.Multiselect = false;
             bool? userClickedOk = toto.ShowDialog();
 
@@ -154,8 +201,21 @@ namespace MyWindowsMediaPlayer
         private void FullScreenClick(object sender, RoutedEventArgs e)
         { }
 
-        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        { }
+        private void SliderProgressDragStarted(object sender, DragStartedEventArgs e)
+        {
+            _userIsDraggingSlider = true;
+        }
+
+        private void SliderProgressDragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            _userIsDraggingSlider = false;
+            MyMediaPlayer.Position = TimeSpan.FromSeconds(SliderProgress.Value);
+        }
+
+        private void SliderProgressValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            lblProgressStatus.Text = TimeSpan.FromSeconds(SliderProgress.Value).ToString(@"hh\:mm\:ss");
+        }
 
         private void ExitClick(object sender, RoutedEventArgs e)
         {
