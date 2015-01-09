@@ -32,6 +32,8 @@ namespace MyWindowsMediaPlayer
         private Boolean _userIsDraggingSlider = false;
         private string _filter = "Video (*.avi, *.mp4, *.wmv)|*.avi;*.mp4;*.wmv |Audio (*.mp3)|*.mp3 |Pictures (*.jpg, *.bmp, *.png)|*.jpg;*.bmp;*.png ";
 
+        private int _index = 0;
+
         private ObservableCollection<Media> _listPlayList { set; get;}
 
         public MainWindow()
@@ -85,6 +87,19 @@ namespace MyWindowsMediaPlayer
                 ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOn.png", UriKind.Relative));
             }
         }
+        private void ToggleLibrary(object sender, RoutedEventArgs e)
+        {
+            if (Library.Visibility == Visibility.Visible)
+            {
+                Library.Visibility = Visibility.Hidden;
+                ImgLibrary.Source = new BitmapImage(new Uri(@"../Images/LibraryOff.png", UriKind.Relative));
+            }
+            else
+            {
+                Library.Visibility = Visibility.Visible;
+                ImgLibrary.Source = new BitmapImage(new Uri(@"../Images/LibraryOn.png", UriKind.Relative));
+            }
+        }
 
         #endregion
 
@@ -104,6 +119,8 @@ namespace MyWindowsMediaPlayer
         }
         private void MyMediaPlayerDrop(object sender, DragEventArgs e)
         {
+            this.WindowState = WindowState.Maximized;
+
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] filePaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
@@ -145,7 +162,6 @@ namespace MyWindowsMediaPlayer
         #endregion
 
         /* Slider Time Function */
-
         #region Slider Time Function
         private void timerTick(object sender, EventArgs e)
         {
@@ -160,6 +176,43 @@ namespace MyWindowsMediaPlayer
 
         /* Buttons Functions  */
         #region Buttons Functions
+
+        private void PreviousAction(object sender, RoutedEventArgs e)
+        {
+            MyMediaPlayer.Stop();
+            _index += -1;
+            if (_index <= 0)
+                _index = 0;
+
+            Media tmp = _listPlayList.ElementAt<Media>(_index);
+
+            MyMediaPlayer.Source = new Uri(tmp.path);
+            MyMediaPlayer.Play();            
+        }
+
+        private void NextAction(object sender, RoutedEventArgs e)
+        {
+            MyMediaPlayer.Stop();
+
+            if (this._isRandom == true)
+            {
+                Random random = new Random();
+                _index = random.Next(0, _listPlayList.Count);
+            }
+            else
+            {
+                _index += 1;
+                if (_index >= _listPlayList.Count)
+                {
+                    _index = _listPlayList.Count - 1;
+                }
+            }
+            Media tmp = _listPlayList.ElementAt<Media>(_index);
+
+            MyMediaPlayer.Source = new Uri(tmp.path);
+            MyMediaPlayer.Play();
+        }
+
 
         private void RepeatClick(object sender, RoutedEventArgs e)
         {
@@ -193,10 +246,12 @@ namespace MyWindowsMediaPlayer
         {
             if (!this._isPlaying)
             {
-                MyMediaPlayer.Play();
-                this.changeImageButton(BtnPlay, "../Images/Pause.png");
-                BtnPlay.ToolTip = "Suspendre";
-                this._isPlaying = true;
+
+                    MyMediaPlayer.Play();
+                    this.changeImageButton(BtnPlay, "../Images/Pause.png");
+                    BtnPlay.ToolTip = "Suspendre";
+                    this._isPlaying = true;
+
             }
             else
             {
@@ -206,7 +261,7 @@ namespace MyWindowsMediaPlayer
                 MyMediaPlayer.Pause();
             }
         }
-        
+
         private void MuteClick(object sender, RoutedEventArgs e)
         {
             if (!this._isPlaying)
@@ -225,15 +280,12 @@ namespace MyWindowsMediaPlayer
             }
         }
 
-
-
         private void OpenClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog toto = new OpenFileDialog();
 
             toto.Filter = _filter;
             toto.FilterIndex = 1;
-                
 
             toto.Multiselect = false;
             bool? userClickedOk = toto.ShowDialog();
@@ -245,6 +297,8 @@ namespace MyWindowsMediaPlayer
             }
             if (!this._isPlaying)
             {
+                this.ResizeMode = ResizeMode.CanResize;
+                this.WindowState = WindowState.Maximized;
                 MyMediaPlayer.Play();
                 BtnPlay.ToolTip = "Suspendre";
                 this._isPlaying = true;
@@ -254,6 +308,10 @@ namespace MyWindowsMediaPlayer
         private void StopClick(object sender, RoutedEventArgs e)
         {
             MyMediaPlayer.Stop();
+            this.changeImageButton(BtnPlay, "../Images/Play.png");
+            BtnPlay.ToolTip = "Lire";
+            this._isPlaying = false;
+            MyMediaPlayer.Close();
         }
 
         private void ChangeMediaVolume(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -316,7 +374,7 @@ namespace MyWindowsMediaPlayer
         {
             if (MyMediaPlayer.Source != null)
             {
-                string current = MyMediaPlayer.Source.AbsolutePath;
+                string current = MyMediaPlayer.Source.AbsoluteUri;
 
                 Media med = new Media(current);
                 
