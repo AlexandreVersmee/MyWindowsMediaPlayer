@@ -47,18 +47,16 @@
                     <MenuItem Header="_Show Playlist" Foreground="Black" Click="TogglePlayList"/>
                     <MenuItem Header="_Add in Playlist" Foreground="Black"/>
                 </MenuItem>
-                <MenuItem Foreground="Snow" HorizontalAlignment="Right" Click="TogglePlayList">
+                <MenuItem  Foreground="Snow" HorizontalAlignment="Right" Click="TogglePlayList">
                     <MenuItem.Header>
                         <StackPanel>
-                            <Image Width="20" Height="20" Source="../Images/PlayList.png"  />
+                            <Image x:Name="ImgPlayList" Width="20" Height="20" Source="../Images/PlayListOff.png" />
                             <ContentPresenter Content="Reports" />
                         </StackPanel>
                     </MenuItem.Header>
 
                 </MenuItem>
             </Menu>
-
-
 
 
             <!-- Media Element -->
@@ -68,11 +66,11 @@
             <Slider x:Name="SliderProgress" MinWidth="490" MinHeight="22" ToolTip="Rechercher" HorizontalContentAlignment="Stretch" Grid.ColumnSpan="3" Grid.Row="2" Thumb.DragStarted="SliderProgressDragStarted"  Thumb.DragCompleted="SliderProgressDragCompleted" ValueChanged="SliderProgressValueChanged" Margin="9,0,1,4" Grid.Column="1" Height="22" VerticalAlignment="Bottom"/>
 
             <!-- Slider Timer -->
-            <TextBlock Name="lblProgressStatus" Grid.Column="2" Margin="25,12,389,10" Grid.Row="3">00:00:00</TextBlock>
+            <TextBlock x:Name="lblProgressStatus" Grid.Column="2" Margin="10,15,362,15" Grid.Row="3" Foreground="#FFECE2E2" TextAlignment="Center" Text="00:00:00"/>
 
             <!-- Background Buttons -->
-            <Border BorderThickness="2" Grid.Row="3" CornerRadius="25" BorderBrush="White" Grid.Column="2" Background="#FFA09696">
-                <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="32" Margin="110,4,0,5" Stroke="#FF938A8A" VerticalAlignment="Center" Width="1" RenderTransformOrigin="0.5,0.5">
+            <Border BorderThickness="2" Grid.Row="3" CornerRadius="25" BorderBrush="White" Grid.Column="2" Background="#FFA09696" Margin="65,0,0,0">
+                <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="73,5,0,5" Stroke="#FF938A8A" Width="1" RenderTransformOrigin="0.5,0.5">
                     <Rectangle.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform ScaleX="-1"/>
@@ -85,29 +83,70 @@
             </Border>
 
             <!-- Buttons -->
-            <Button x:Name="Stop" HorizontalAlignment="Left" Margin="133,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="28" Grid.Column="2" Height="26" BorderBrush="White" Panel.ZIndex="1" Background="{x:Null}" ToolTip="Stop" BorderThickness="0" Click="StopClick">
-                <Image Source="../Images/Stop.png" VerticalAlignment="Center" ToolTip="Stop"/>
+            <Button x:Name="BtnRandom" Grid.Column="2" HorizontalAlignment="Left" Margin="75,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="28" Height="26" BorderThickness="0" BorderBrush="{x:Null}" Background="{x:Null}" ToolTip="Aléatoire" Click="RandomClick">
+                <Image Source="../Images/RandomOff.png" Height="22" Width="18" ToolTip="" />
             </Button>
-            <Button x:Name="Previous" Grid.Column="2" HorizontalAlignment="Left" Margin="165,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="28" Height="26" BorderThickness="0" BorderBrush="White" Background="{x:Null}" Panel.ZIndex="1" ToolTip="Précédent">
-                <Image Source="../Images/Left.png" />
+            <Button x:Name="BtnRepeat" Grid.Column="2" HorizontalAlignment="Left" Margin="103,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="28" Height="26" BorderThickness="0" Background="{x:Null}" ToolTip="Répéter" Click="RepeatClick">
+                <Image Source="../Images/RepeatOff.png" Height="22" Width="25" ToolTip="" />
             </Button>
-            <Button x:Name="Play" HorizontalAlignment="Center" Height="41" Margin="195,2,186,2" VerticalAlignment="Center" Width="41" BorderBrush="White" Panel.ZIndex="1" OpacityMask="Black" ToolTip="Lire" Grid.Column="2" Grid.Row="3" BorderThickness="0" Background="{x:Null}" Click="PlayClick">
-                <Image Source="../Images/Play.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Button x:Name="BtnStop" HorizontalAlignment="Left" Margin="133,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="28" Grid.Column="2" Height="26" BorderBrush="White" Panel.ZIndex="1" Background="{x:Null}" ToolTip="Stop" BorderThickness="0" Click="StopClick" RenderTransformOrigin="0.5,0.5">
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="15"/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+                <Image Source="/MyWindowsMediaPlayer;component/Images/Stop.png" VerticalAlignment="Center" ToolTip="Stop"/>
             </Button>
-            <Button x:Name="Left" Grid.Column="2" HorizontalAlignment="Left" Height="26" Margin="241,10,0,9" Grid.Row="3" VerticalAlignment="Center" Width="28" BorderBrush="White" BorderThickness="0" Background="{x:Null}" ToolTip="Suivant">
-                <Image x:Name="Next" Source="../Images/Right.png" />
+            <Button x:Name="BtnPrevious" Grid.Column="2" HorizontalAlignment="Left" Margin="165,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="28" Height="26" BorderThickness="0" BorderBrush="White" Background="{x:Null}" Panel.ZIndex="1" ToolTip="Précédent" RenderTransformOrigin="0.5,0.5">
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="15"/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+                <Image Source="/MyWindowsMediaPlayer;component/Images/Left.png" />
             </Button>
-            <Button x:Name="Sound" Grid.Column="2" HorizontalAlignment="Left" Height="26" Margin="288,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="28" BorderBrush="White" BorderThickness="0" Background="{x:Null}" Click="MuteClick" ToolTip="Volume">
+            <Button x:Name="BtnPlay" HorizontalAlignment="Center" Height="41" Margin="195,2,186,2" VerticalAlignment="Center" Width="41" BorderBrush="White" Panel.ZIndex="1" OpacityMask="Black" ToolTip="Lire" Grid.Column="2" Grid.Row="3" BorderThickness="0" Background="{x:Null}" Click="PlayClick" RenderTransformOrigin="0.5,0.5">
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="15"/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+                <Image Source="/MyWindowsMediaPlayer;component/Images/Play.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Button>
+            <Button  x:Name="BtnNext" Grid.Column="2" HorizontalAlignment="Left" Height="26" Margin="241,10,0,9" Grid.Row="3" VerticalAlignment="Center" Width="28" BorderBrush="White" BorderThickness="0" Background="{x:Null}" ToolTip="Suivant" RenderTransformOrigin="0.5,0.5">
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="15"/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+                <Image Source="/MyWindowsMediaPlayer;component/Images/Right.png" />
+            </Button>
+            <Button x:Name="BtnSound" Grid.Column="2" HorizontalAlignment="Left" Height="26" Margin="291,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="28" BorderBrush="White" BorderThickness="0" Background="{x:Null}" Click="MuteClick" ToolTip="Volume">
                 <Image Source="../Images/Volume.png" />
             </Button>
 
             <!-- Volume -->
             <Slider x:Name="SliderVolume" HorizontalAlignment="Center" Height="22" Margin="321,13,17,10" Width="84" ToolTip="Volume" Maximum="1" Value="1" VerticalAlignment="Center" Grid.Column="2" Grid.Row="3" MinHeight="22" MinWidth="83" ValueChanged="ChangeMediaVolume" />
+
+            <!-- Play List -->
             <ListBox x:Name="PLayList" Margin="0,2,2,27" Panel.ZIndex="4" Grid.ColumnSpan="3" Grid.Column="2" Grid.Row="1" Background="#FFC7BFBF" Grid.RowSpan="2" MinWidth="175" MinHeight="250" ToolTip="Play List" HorizontalContentAlignment="Stretch" HorizontalAlignment="Right" BorderThickness="1" Width="175" Visibility="Hidden" >
                 <ListBox.Effect>
                     <DropShadowEffect Direction="247" Color="#FF4F4F4F" BlurRadius="8"/>
                 </ListBox.Effect>
             </ListBox>
+
         </Grid>
 
     </Grid>

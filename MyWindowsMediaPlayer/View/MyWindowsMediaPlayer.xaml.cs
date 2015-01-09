@@ -21,8 +21,9 @@ namespace MyWindowsMediaPlayer
 
     public partial class MainWindow : Window
     {
-        private Boolean _isReplay;
         private Boolean _isPlaying;
+        private Boolean _isReplay;
+        private Boolean _isRandom;
         private Boolean _userIsDraggingSlider = false;
         private string _filter = "Video (*.avi, *.mp4, *.wmv)|*.avi;*.mp4;*.wmv |Audio (*.mp3)|*.mp3 |Pictures (*.jpg, *.bmp, *.png)|*.jpg;*.bmp;*.png ";
 
@@ -42,10 +43,34 @@ namespace MyWindowsMediaPlayer
             timer.Tick += timerTick;
             timer.Start();
 
-
-            this._isReplay = false;
             this._isPlaying = false;
+            this._isRandom = false;
+            this._isReplay = false;
         }
+
+        /* Menu */
+        #region Menu
+        private void ExitClick(object sender, RoutedEventArgs e)
+        {
+            System.Environment.Exit(0);
+        }
+
+        private void TogglePlayList(object sender, RoutedEventArgs e)
+        {
+            if (PLayList.Visibility == Visibility.Visible)
+            {
+                PLayList.Visibility = Visibility.Hidden;
+                ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOff.png", UriKind.Relative));
+            }
+            else
+            {
+                PLayList.Visibility = Visibility.Visible;
+                ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOn.png", UriKind.Relative));
+            }
+        }
+
+        #endregion
+
 
         /* Playlist Function */
         #region Playlist Function
@@ -72,7 +97,7 @@ namespace MyWindowsMediaPlayer
             if (!this._isPlaying)
             {
                 MyMediaPlayer.Play();
-                Play.ToolTip = "Suspendre";
+                BtnPlay.ToolTip = "Suspendre";
             }
         }
         private void MyMediaPlayerMediaEnded(object sender, RoutedEventArgs e)
@@ -120,19 +145,52 @@ namespace MyWindowsMediaPlayer
 
         /* Buttons Functions  */
         #region Buttons Functions
+
+        private void RepeatClick(object sender, RoutedEventArgs e)
+        {
+            if (!BtnRepeat.IsDefault)
+            {
+                this.changeImageButton(BtnRepeat, "../Images/RepeatOn.png");
+                BtnRepeat.IsDefault = true;
+                this._isReplay = true;
+            }
+            else
+            {
+                this.changeImageButton(BtnRepeat, "../Images/RepeatOff.png");
+                BtnRepeat.IsDefault = false;
+                this._isReplay = false;
+            }
+        }
+
+        private void RandomClick(object sender, RoutedEventArgs e)
+        {
+            if (!BtnRandom.IsDefault)
+            {
+                this.changeImageButton(BtnRandom, "../Images/RandomOff.png");
+                BtnRandom.IsDefault = true;
+                this._isRandom = true;
+            }
+            else
+            {
+                this.changeImageButton(BtnRandom, "../Images/RandomOn.png");
+                BtnRandom.IsDefault = false;
+                this._isRandom = true;
+            }
+        }
+
         private void PlayClick(object sender, RoutedEventArgs e)
         {
             if (!this._isPlaying)
             {
                 MyMediaPlayer.Play();
-                this.changeImageButton(Play, "../Images/Pause.png");
-                Play.ToolTip = "Suspendre";
+                this.changeImageButton(BtnPlay, "../Images/Pause.png");
+                BtnPlay.ToolTip = "Suspendre";
                 this._isPlaying = true;
             }
             else
             {
-                this.changeImageButton(Play, "../Images/Play.png");
-                Play.ToolTip = "Lire";
+                this.changeImageButton(BtnPlay, "../Images/Play.png");
+                BtnPlay.ToolTip = "Lire";
                 this._isPlaying = false;
                 MyMediaPlayer.Pause();
             }
@@ -143,15 +201,15 @@ namespace MyWindowsMediaPlayer
             if (!this._isPlaying)
             {
                 MyMediaPlayer.IsMuted = !MyMediaPlayer.IsMuted;
-                this.changeImageButton(Sound, "../Images/Mute.png");
-                Sound.ToolTip = "Muet";
+                this.changeImageButton(BtnSound, "../Images/Mute.png");
+                BtnSound.ToolTip = "Muet";
                 this._isPlaying = true;
             }
             else 
             {
                 MyMediaPlayer.IsMuted = !MyMediaPlayer.IsMuted;
-                this.changeImageButton(Sound, "../Images/Volume.png");
-                Sound.ToolTip = "Volume";
+                this.changeImageButton(BtnSound, "../Images/Volume.png");
+                BtnSound.ToolTip = "Volume";
                 this._isPlaying = false;
             }
         }
@@ -175,7 +233,7 @@ namespace MyWindowsMediaPlayer
             if (!this._isPlaying)
             {
                 MyMediaPlayer.Play();
-                Play.ToolTip = "Suspendre";
+                BtnPlay.ToolTip = "Suspendre";
                 this._isPlaying = true;
             }
         }
@@ -188,14 +246,6 @@ namespace MyWindowsMediaPlayer
         private void ChangeMediaVolume(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             MyMediaPlayer.Volume = (double)SliderVolume.Value;
-        }
-
-        private void ReplayClick(object sender, RoutedEventArgs e)
-        {
-            if (this._isReplay == false)
-                this._isReplay = true;
-            else
-                this._isReplay = false;
         }
 
         private void FullScreenClick(object sender, RoutedEventArgs e)
@@ -216,19 +266,6 @@ namespace MyWindowsMediaPlayer
         {
             lblProgressStatus.Text = TimeSpan.FromSeconds(SliderProgress.Value).ToString(@"hh\:mm\:ss");
         }
-
-        private void ExitClick(object sender, RoutedEventArgs e)
-        {
-            System.Environment.Exit(0);
-        }
-
-         private void TogglePlayList(object sender, RoutedEventArgs e)
-         {
-             if (PLayList.Visibility == Visibility.Visible)
-                PLayList.Visibility = Visibility.Hidden;
-             else
-                 PLayList.Visibility = Visibility.Visible;
-         }
         #endregion
 
         /* Tools */
