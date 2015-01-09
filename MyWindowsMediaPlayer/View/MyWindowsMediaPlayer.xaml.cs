@@ -20,6 +20,7 @@ using System.IO;
 using System.Collections.ObjectModel;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using TagLib;
 
 namespace MyWindowsMediaPlayer
 {
@@ -431,6 +432,22 @@ namespace MyWindowsMediaPlayer
                 }
             }
 
+        }
+
+        private void test(object sender, RoutedEventArgs e)
+        {
+            //ADD LIBRARY !!!!
+
+            //Récupère les fichiers.mp3 du dossier music
+            string[] filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic), "*.mp3", SearchOption.AllDirectories);
+            Debug.Write(filePaths[0]);
+            //Cree le tag qui contient les infos du fichier
+            TagLib.File tagFile = TagLib.File.Create(filePaths[0]);
+            //Récupère les infos dans des strings
+            string artist = tagFile.Tag.FirstAlbumArtist;
+            string album = tagFile.Tag.Album;
+            string title = tagFile.Tag.Title;
+            Debug.Write(title);
         }
 
         private void KickOfList(object sender, MouseButtonEventArgs e)

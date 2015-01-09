@@ -42,7 +42,7 @@
                 </Menu.ItemsPanel>
                 <MenuItem Header="_File" Foreground="Snow">
                     <MenuItem Header="_Open file" Foreground="Black" Click="OpenClick"/>
-                    <MenuItem Header="_Add to playlist" Foreground="Black"/>
+                    <MenuItem Header="_Add to playlist" Foreground="Black" Click="test"/>
                     <MenuItem Header="_Quit" Foreground="Black" Click="ExitClick"/>
                 </MenuItem>
                 <MenuItem Header="_Playlist" Foreground="Snow">
