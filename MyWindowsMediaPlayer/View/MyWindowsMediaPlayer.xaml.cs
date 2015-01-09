@@ -161,6 +161,14 @@ namespace MyWindowsMediaPlayer
         {
             System.Environment.Exit(0);
         }
+
+         private void TogglePlayList(object sender, RoutedEventArgs e)
+         {
+             if (PLayList.Visibility == Visibility.Visible)
+                PLayList.Visibility = Visibility.Hidden;
+             else
+                 PLayList.Visibility = Visibility.Visible;
+         }
         #endregion
 
         /* Tools */
@@ -173,6 +181,11 @@ namespace MyWindowsMediaPlayer
             };
         }
         #endregion
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
 
     }
 }
