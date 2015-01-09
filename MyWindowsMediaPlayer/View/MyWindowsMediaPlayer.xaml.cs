@@ -188,14 +188,20 @@ namespace MyWindowsMediaPlayer
         private void NextAction(object sender, RoutedEventArgs e)
         {
             MyMediaPlayer.Stop();
-            _index += 1;
 
-            /*repasse pour le random*/
-            if (_index >= _listPlayList.Count)
+            if (this._isRandom == true)
             {
-                _index = _listPlayList.Count - 1;
+                Random random = new Random();
+                _index = random.Next(0, _listPlayList.Count);
             }
-
+            else
+            {
+                _index += 1;
+                if (_index >= _listPlayList.Count)
+                {
+                    _index = _listPlayList.Count - 1;
+                }
+            }
             Media tmp = _listPlayList.ElementAt<Media>(_index);
 
             MyMediaPlayer.Source = new Uri(tmp.path);
