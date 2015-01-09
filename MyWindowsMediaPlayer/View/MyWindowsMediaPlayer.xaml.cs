@@ -156,6 +156,11 @@ namespace MyWindowsMediaPlayer
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         { }
+
+        private void ExitClick(object sender, RoutedEventArgs e)
+        {
+            System.Environment.Exit(0);
+        }
         #endregion
 
         /* Tools */
@@ -168,5 +173,6 @@ namespace MyWindowsMediaPlayer
             };
         }
         #endregion
+
     }
 }

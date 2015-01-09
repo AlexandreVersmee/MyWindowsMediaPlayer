@@ -35,7 +35,6 @@
 
             <!-- Background Buttons -->
             <Border BorderThickness="2" Grid.Row="3" CornerRadius="25" BorderBrush="White" Grid.Column="2" Background="#FFA09696"></Border>
-
             <!-- Buttons -->
             <Button x:Name="Stop" HorizontalAlignment="Left" Margin="129,12,0,0" Grid.Row="3" VerticalAlignment="Top" Width="28" Grid.Column="2" Height="26" BorderBrush="White" Panel.ZIndex="1" Background="{x:Null}" ToolTip="Stop" BorderThickness="0" Click="StopClick">
                 <Image Source="../Images/Stop.png" VerticalAlignment="Center" ToolTip="Stop"></Image>
@@ -61,7 +60,7 @@
                 <MenuItem Header="_File" Foreground="Snow">
                     <MenuItem Header="_Open file" Foreground="Black" Click="OpenClick"/>
                     <MenuItem Header="_Add to playlist" Foreground="Black"/>
-                    <MenuItem Header="_Quit" Foreground="Black"/>
+                    <MenuItem Header="_Quit" Foreground="Black" Click="ExitClick"/>
                 </MenuItem>
                 <MenuItem Header="_Playlist" Foreground="Snow">
                     <MenuItem Header="_Save playlist" Foreground="Black"/>
