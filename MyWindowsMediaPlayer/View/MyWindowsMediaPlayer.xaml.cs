@@ -158,33 +158,29 @@ namespace MyWindowsMediaPlayer
 
         private void RepeatClick(object sender, RoutedEventArgs e)
         {
-            if (!BtnRepeat.IsDefault)
+            if (!this._isReplay)
             {
                 this.changeImageButton(BtnRepeat, "../Images/RepeatOn.png");
-                BtnRepeat.IsDefault = true;
                 this._isReplay = true;
             }
             else
             {
                 this.changeImageButton(BtnRepeat, "../Images/RepeatOff.png");
-                BtnRepeat.IsDefault = false;
                 this._isReplay = false;
             }
         }
 
         private void RandomClick(object sender, RoutedEventArgs e)
         {
-            if (!BtnRandom.IsDefault)
+            if (!this._isRandom)
             {
-                this.changeImageButton(BtnRandom, "../Images/RandomOff.png");
-                BtnRandom.IsDefault = true;
+                this.changeImageButton(BtnRandom, "../Images/RandomOn.png");
                 this._isRandom = true;
             }
             else
             {
-                this.changeImageButton(BtnRandom, "../Images/RandomOn.png");
-                BtnRandom.IsDefault = false;
-                this._isRandom = true;
+                this.changeImageButton(BtnRandom, "../Images/RandomOff.png");
+                this._isRandom = false;
             }
         }
 
