@@ -61,6 +61,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="View\Media.cs" />
     <Compile Include="View\MyWindowsMediaPlayer.xaml.cs">
       <DependentUpon>MyWindowsMediaPlayer.xaml</DependentUpon>
       <SubType>Code</SubType>

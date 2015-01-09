@@ -15,6 +15,11 @@ using System.Windows.Shapes;
 using Microsoft.Win32;
 using System.Windows.Threading;
 using System.Windows.Controls.Primitives;
+using System.Diagnostics;
+using System.IO;
+using System.Collections.ObjectModel;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace MyWindowsMediaPlayer
 {
@@ -25,6 +30,8 @@ namespace MyWindowsMediaPlayer
         private Boolean _isPlaying;
         private Boolean _userIsDraggingSlider = false;
         private string _filter = "Video (*.avi, *.mp4, *.wmv)|*.avi;*.mp4;*.wmv |Audio (*.mp3)|*.mp3 |Pictures (*.jpg, *.bmp, *.png)|*.jpg;*.bmp;*.png ";
+
+        private ObservableCollection<Media> _listPlayList { set; get;}
 
         public MainWindow()
         {
@@ -42,6 +49,12 @@ namespace MyWindowsMediaPlayer
             timer.Tick += timerTick;
             timer.Start();
 
+            /*TMP*/
+            this._listPlayList = new ObservableCollection<Media>();
+
+            /* Fin TMP*/
+
+
 
             this._isReplay = false;
             this._isPlaying = false;
@@ -49,8 +62,6 @@ namespace MyWindowsMediaPlayer
 
         /* Playlist Function */
         #region Playlist Function
-
-
 
 
         #endregion
@@ -156,6 +167,8 @@ namespace MyWindowsMediaPlayer
             }
         }
 
+
+
         private void OpenClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog toto = new OpenFileDialog();
@@ -246,6 +259,63 @@ namespace MyWindowsMediaPlayer
         {
 
         }
+
+        private void AddInPlayList(object sender, RoutedEventArgs e)
+        {
+            if (MyMediaPlayer.Source != null)
+            {
+                string current = MyMediaPlayer.Source.AbsolutePath;
+
+                Media med = new Media(current);
+                
+                _listPlayList.Add(med);
+            }
+        }
+
+        private void SavePlayList(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog box = new SaveFileDialog();
+            box.FileName = "Document";
+            box.DefaultExt = ".xml";
+            box.Filter = "Playlist file (.xml)|*.xml";
+
+            Nullable<bool> result = box.ShowDialog();
+            if (result == true)
+            {
+                string filename = box.FileName;
+
+                XmlSerializer xs = new XmlSerializer(typeof(ObservableCollection<Media>));
+                using (StreamWriter wr = new StreamWriter(filename))
+                {
+                    xs.Serialize(wr, _listPlayList);
+                }
+            }
+        }
+
+        private void OpenPlaylist(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog file = new OpenFileDialog();
+
+            file.Multiselect = false;
+            bool? userClickedOk = file.ShowDialog();
+
+            if (userClickedOk == true)
+            {
+                XmlSerializer xs = new XmlSerializer(typeof(ObservableCollection<Media>));
+                using (StreamReader rd = new StreamReader(file.FileName))
+                {
+                    ObservableCollection<Media> p = xs.Deserialize(rd) as ObservableCollection<Media>;
+
+                    /* pour le dev a sup*/
+                    foreach (Media m in p)
+                    {
+                        Debug.WriteLine(m.path);
+                    }
+                }
+            }
+
+        }
+
 
     }
 }

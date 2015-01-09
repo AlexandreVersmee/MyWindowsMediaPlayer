@@ -42,10 +42,10 @@
                     <MenuItem Header="_Quit" Foreground="Black" Click="ExitClick"/>
                 </MenuItem>
                 <MenuItem Header="_Playlist" Foreground="Snow">
-                    <MenuItem Header="_Save playlist" Foreground="Black"/>
-                    <MenuItem Header="_Open playlist" Foreground="Black"/>
+                    <MenuItem Header="_Save playlist" Foreground="Black" Click="SavePlayList"/>
+                    <MenuItem Header="_Open playlist" Foreground="Black" Click="OpenPlaylist"/>
                     <MenuItem Header="_Show Playlist" Foreground="Black" Click="TogglePlayList"/>
-                    <MenuItem Header="_Add in Playlist" Foreground="Black"/>
+                    <MenuItem Header="_Add in Playlist" Foreground="Black" Click="AddInPlayList"/>
                 </MenuItem>
                 <MenuItem Foreground="Snow" HorizontalAlignment="Right" Click="TogglePlayList">
                     <MenuItem.Header>
