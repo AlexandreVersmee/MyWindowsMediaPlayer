@@ -64,11 +64,11 @@
                     <MenuItem Header="_Add to playlist" Foreground="Black"/>
                     <MenuItem Header="_Quit" Foreground="Black" Click="ExitClick"/>
                 </MenuItem>
-                <MenuItem Header="_Playlist" Foreground="Snow">
+                <MenuItem Header="_Playlist" Foreground="Snow" >
                     <MenuItem Header="_Save playlist" Foreground="Black"/>
                     <MenuItem Header="_Open playlist" Foreground="Black"/>
-                    <MenuItem Header="_Show Playlist" Foreground="Black" Click="TogglePlayList"/>
-                    <MenuItem Header="_Add in Playlist" Foreground="Black" Click="AddInPlayList"/>
+                    <MenuItem Header="_Show Playlist" Foreground="Black" />
+                    <MenuItem Header="_Add in Playlist" Foreground="Black" />
                 </MenuItem>
             </Menu>
         </Grid>

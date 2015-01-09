@@ -24,6 +24,7 @@ namespace MyWindowsMediaPlayer
         private Boolean _isReplay;
         private Boolean _isPlaying;
         private Boolean _userIsDraggingSlider = false;
+        private string _filter = "Video (*.avi, *.mp4, *.wmv)|*.avi;*.mp4;*.wmv |Audio (*.mp3)|*.mp3 |Pictures (*.jpg, *.bmp, *.png)|*.jpg;*.bmp;*.png ";
 
         public MainWindow()
         {
@@ -149,6 +150,10 @@ namespace MyWindowsMediaPlayer
         private void OpenClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog toto = new OpenFileDialog();
+
+            toto.Filter = _filter;
+            toto.FilterIndex = 1;
+                
 
             toto.Multiselect = false;
             bool? userClickedOk = toto.ShowDialog();
