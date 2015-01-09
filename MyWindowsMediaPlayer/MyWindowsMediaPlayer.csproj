@@ -112,7 +112,14 @@
     <Resource Include="Images\Volume.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\PlayList.png" />
+    <Resource Include="Images\RepeatOff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PlayListOff.png" />
+    <Resource Include="Images\PlayListOn.png" />
+    <Resource Include="Images\RandomOff.png" />
+    <Resource Include="Images\RandomOn.png" />
+    <Resource Include="Images\RepeatOn.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
