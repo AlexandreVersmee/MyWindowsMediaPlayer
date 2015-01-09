@@ -72,11 +72,16 @@ namespace MyWindowsMediaPlayer
             if (PLayList.Visibility == Visibility.Visible)
             {
                 PLayList.Visibility = Visibility.Hidden;
+                this.PLayList.Items.Clear();
                 ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOff.png", UriKind.Relative));
             }
             else
             {
                 PLayList.Visibility = Visibility.Visible;
+                foreach (Media m in _listPlayList)
+                {
+                    this.PLayList.Items.Add(m.path);
+                }
                 ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOn.png", UriKind.Relative));
             }
         }
@@ -316,6 +321,13 @@ namespace MyWindowsMediaPlayer
                 Media med = new Media(current);
                 
                 _listPlayList.Add(med);
+                this.PLayList.Items.Clear();
+                foreach (Media m in _listPlayList)
+                {
+                    this.PLayList.Items.Add(m.path);
+                }
+                this.PLayList.Visibility = Visibility.Visible;
+                ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOn.png", UriKind.Relative));
             }
         }
 
@@ -363,6 +375,23 @@ namespace MyWindowsMediaPlayer
 
         }
 
+        private void KickOfList(object sender, MouseButtonEventArgs e)
+        {
+            if (this.PLayList.SelectedItem != null)
+            {
+                int i;
+                i = PLayList.SelectedIndex;
+                if (i >= 0)
+                {
+                    _listPlayList.RemoveAt(i);
+                    this.PLayList.Items.Clear();
+                    foreach (Media m in _listPlayList)
+                    {
+                        this.PLayList.Items.Add(m.path);
+                    }
+                }
 
+            }
+        }
     }
 }
