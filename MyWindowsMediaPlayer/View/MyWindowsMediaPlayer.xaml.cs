@@ -47,6 +47,15 @@ namespace MyWindowsMediaPlayer
             this._isPlaying = false;
         }
 
+        /* Playlist Function */
+        #region Playlist Function
+
+
+
+
+        #endregion
+
+
         /* Media Element Functions */
         #region Media Element Functions
         private void MyMediaPlayerMediaFailed(object sender, ExceptionRoutedEventArgs e)
