@@ -1,7 +1,7 @@
 ﻿<Window x:Name="My_Windows_Media" x:Class="MyWindowsMediaPlayer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Windows Media Player" Height="392" Width="453" 
+        Title="Windows Media Player" Height="392" Width="761" 
         SizeToContent="WidthAndHeight" ToolTip="Windows Media Player" 
         MinWidth="525" MinHeight="368" HorizontalContentAlignment="Stretch">
     <Window.Background>
@@ -11,7 +11,7 @@
             <GradientStop Color="#FF79BCFF" Offset="0.466"/>
         </LinearGradientBrush>
     </Window.Background>
-    <Grid>
+    <Grid Margin="0,0,255,0">
         <Grid x:Name="Layout">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="9*"/>
@@ -67,9 +67,12 @@
                 <MenuItem Header="_Playlist" Foreground="Snow">
                     <MenuItem Header="_Save playlist" Foreground="Black"/>
                     <MenuItem Header="_Open playlist" Foreground="Black"/>
+                    <MenuItem Header="_Show Playlist" Foreground="Black" Click="TogglePlayList"/>
+                    <MenuItem Header="_Add in Playlist" Foreground="Black" Click="AddInPlayList"/>
                 </MenuItem>
             </Menu>
         </Grid>
+        <ListBox x:Name="PLayList" HorizontalAlignment="Left" Height="307" Margin="553,29,-248,0" VerticalAlignment="Top" Width="193" Visibility="Hidden"/>
 
     </Grid>
 </Window>
