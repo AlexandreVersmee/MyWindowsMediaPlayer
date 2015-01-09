@@ -32,6 +32,8 @@ namespace MyWindowsMediaPlayer
         private Boolean _userIsDraggingSlider = false;
         private string _filter = "Video (*.avi, *.mp4, *.wmv)|*.avi;*.mp4;*.wmv |Audio (*.mp3)|*.mp3 |Pictures (*.jpg, *.bmp, *.png)|*.jpg;*.bmp;*.png ";
 
+        private int _index = 0;
+
         private ObservableCollection<Media> _listPlayList { set; get;}
 
         public MainWindow()
@@ -155,6 +157,37 @@ namespace MyWindowsMediaPlayer
 
         /* Buttons Functions  */
         #region Buttons Functions
+
+        private void PreviousAction(object sender, RoutedEventArgs e)
+        {
+            MyMediaPlayer.Stop();
+            _index += -1;
+            if (_index <= 0)
+                _index = 0;
+
+            Media tmp = _listPlayList.ElementAt<Media>(_index);
+
+            MyMediaPlayer.Source = new Uri(tmp.path);
+            MyMediaPlayer.Play();            
+        }
+
+        private void NextAction(object sender, RoutedEventArgs e)
+        {
+            MyMediaPlayer.Stop();
+            _index += 1;
+
+            /*repasse pour le random*/
+            if (_index >= _listPlayList.Count)
+            {
+                _index = _listPlayList.Count - 1;
+            }
+
+            Media tmp = _listPlayList.ElementAt<Media>(_index);
+
+            MyMediaPlayer.Source = new Uri(tmp.path);
+            MyMediaPlayer.Play();
+        }
+
 
         private void RepeatClick(object sender, RoutedEventArgs e)
         {
@@ -296,7 +329,7 @@ namespace MyWindowsMediaPlayer
         {
             if (MyMediaPlayer.Source != null)
             {
-                string current = MyMediaPlayer.Source.AbsolutePath;
+                string current = MyMediaPlayer.Source.AbsoluteUri;
 
                 Media med = new Media(current);
                 

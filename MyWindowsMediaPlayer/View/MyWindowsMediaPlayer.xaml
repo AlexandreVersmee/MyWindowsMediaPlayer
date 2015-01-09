@@ -102,7 +102,7 @@
                 </Button.RenderTransform>
                 <Image Source="/MyWindowsMediaPlayer;component/Images/Stop.png" VerticalAlignment="Center" ToolTip="Stop"/>
             </Button>
-            <Button x:Name="BtnPrevious" Grid.Column="2" HorizontalAlignment="Left" Margin="165,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="28" Height="26" BorderThickness="0" BorderBrush="White" Background="{x:Null}" Panel.ZIndex="1" ToolTip="Précédent" RenderTransformOrigin="0.5,0.5">
+            <Button x:Name="BtnPrevious" Grid.Column="2" HorizontalAlignment="Left" Margin="165,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="28" Height="26" BorderThickness="0" BorderBrush="White" Background="{x:Null}" Panel.ZIndex="1" ToolTip="Précédent" RenderTransformOrigin="0.5,0.5" Click="PreviousAction">
                 <Button.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -124,7 +124,7 @@
                 </Button.RenderTransform>
                 <Image Source="/MyWindowsMediaPlayer;component/Images/Play.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Button>
-            <Button  x:Name="BtnNext" Grid.Column="2" HorizontalAlignment="Left" Height="26" Margin="241,10,0,9" Grid.Row="3" VerticalAlignment="Center" Width="28" BorderBrush="White" BorderThickness="0" Background="{x:Null}" ToolTip="Suivant" RenderTransformOrigin="0.5,0.5">
+            <Button  x:Name="BtnNext" Grid.Column="2" HorizontalAlignment="Left" Height="26" Margin="241,10,0,9" Grid.Row="3" VerticalAlignment="Center" Width="28" BorderBrush="White" BorderThickness="0" Background="{x:Null}" ToolTip="Suivant" RenderTransformOrigin="0.5,0.5" Click="NextAction">
                 <Button.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>

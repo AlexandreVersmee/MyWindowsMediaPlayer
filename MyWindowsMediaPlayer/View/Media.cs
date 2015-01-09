@@ -9,8 +9,7 @@ namespace MyWindowsMediaPlayer
     public class Media
     {
         public string path {  get;  set; }
-
-
+        
         public Media(string path)
         {
             this.path = path;
