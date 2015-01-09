@@ -82,6 +82,19 @@ namespace MyWindowsMediaPlayer
                 ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOn.png", UriKind.Relative));
             }
         }
+        private void ToggleLibrary(object sender, RoutedEventArgs e)
+        {
+            if (Library.Visibility == Visibility.Visible)
+            {
+                Library.Visibility = Visibility.Hidden;
+                ImgLibrary.Source = new BitmapImage(new Uri(@"../Images/LibraryOff.png", UriKind.Relative));
+            }
+            else
+            {
+                Library.Visibility = Visibility.Visible;
+                ImgLibrary.Source = new BitmapImage(new Uri(@"../Images/LibraryOn.png", UriKind.Relative));
+            }
+        }
 
         #endregion
 
@@ -101,6 +114,8 @@ namespace MyWindowsMediaPlayer
         }
         private void MyMediaPlayerDrop(object sender, DragEventArgs e)
         {
+            this.WindowState = WindowState.Maximized;
+
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] filePaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
@@ -142,7 +157,6 @@ namespace MyWindowsMediaPlayer
         #endregion
 
         /* Slider Time Function */
-
         #region Slider Time Function
         private void timerTick(object sender, EventArgs e)
         {
@@ -221,10 +235,12 @@ namespace MyWindowsMediaPlayer
         {
             if (!this._isPlaying)
             {
-                MyMediaPlayer.Play();
-                this.changeImageButton(BtnPlay, "../Images/Pause.png");
-                BtnPlay.ToolTip = "Suspendre";
-                this._isPlaying = true;
+
+                    MyMediaPlayer.Play();
+                    this.changeImageButton(BtnPlay, "../Images/Pause.png");
+                    BtnPlay.ToolTip = "Suspendre";
+                    this._isPlaying = true;
+
             }
             else
             {
@@ -234,7 +250,7 @@ namespace MyWindowsMediaPlayer
                 MyMediaPlayer.Pause();
             }
         }
-        
+
         private void MuteClick(object sender, RoutedEventArgs e)
         {
             if (!this._isPlaying)
@@ -253,15 +269,12 @@ namespace MyWindowsMediaPlayer
             }
         }
 
-
-
         private void OpenClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog toto = new OpenFileDialog();
 
             toto.Filter = _filter;
             toto.FilterIndex = 1;
-                
 
             toto.Multiselect = false;
             bool? userClickedOk = toto.ShowDialog();
@@ -273,6 +286,8 @@ namespace MyWindowsMediaPlayer
             }
             if (!this._isPlaying)
             {
+                this.ResizeMode = ResizeMode.CanResize;
+                this.WindowState = WindowState.Maximized;
                 MyMediaPlayer.Play();
                 BtnPlay.ToolTip = "Suspendre";
                 this._isPlaying = true;
@@ -282,6 +297,10 @@ namespace MyWindowsMediaPlayer
         private void StopClick(object sender, RoutedEventArgs e)
         {
             MyMediaPlayer.Stop();
+            this.changeImageButton(BtnPlay, "../Images/Play.png");
+            BtnPlay.ToolTip = "Lire";
+            this._isPlaying = false;
+            MyMediaPlayer.Close();
         }
 
         private void ChangeMediaVolume(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -307,6 +326,21 @@ namespace MyWindowsMediaPlayer
         {
             lblProgressStatus.Text = TimeSpan.FromSeconds(SliderProgress.Value).ToString(@"hh\:mm\:ss");
         }
+
+        private void MaximizeClick(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState != WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Maximized;
+                this.WindowStyle = WindowStyle.None;
+            }
+            else
+            {
+                this.WindowState = WindowState.Normal;
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+            }
+        }
+
         #endregion
 
         /* Tools */
@@ -324,7 +358,7 @@ namespace MyWindowsMediaPlayer
         {
 
         }
-
+        
         private void AddInPlayList(object sender, RoutedEventArgs e)
         {
             if (MyMediaPlayer.Source != null)
