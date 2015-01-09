@@ -274,6 +274,21 @@ namespace MyWindowsMediaPlayer
         {
             lblProgressStatus.Text = TimeSpan.FromSeconds(SliderProgress.Value).ToString(@"hh\:mm\:ss");
         }
+
+        private void MaximizeClick(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState != WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Maximized;
+                this.WindowStyle = WindowStyle.None;
+            }
+            else
+            {
+                this.WindowState = WindowState.Normal;
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+            }
+        }
+
         #endregion
 
         /* Tools */
@@ -291,7 +306,7 @@ namespace MyWindowsMediaPlayer
         {
 
         }
-
+        
         private void AddInPlayList(object sender, RoutedEventArgs e)
         {
             if (MyMediaPlayer.Source != null)

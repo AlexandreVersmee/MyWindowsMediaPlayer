@@ -46,8 +46,8 @@
                 <MenuItem Header="_Playlist" Foreground="Snow">
                     <MenuItem Header="_Save playlist" Foreground="Black" Click="SavePlayList"/>
                     <MenuItem Header="_Open playlist" Foreground="Black" Click="OpenPlaylist"/>
-                    <MenuItem Header="_Show Playlist" Foreground="Black" Click="TogglePlayList"/>
-                    <MenuItem Header="_Add in Playlist" Foreground="Black" Click="AddInPlayList"/>
+                    <MenuItem Header="_Add files in playlist" Foreground="Black"/>
+                    <MenuItem Header="_Add current file in playlist" Foreground="Black" Click="AddInPlayList"/>
                 </MenuItem>
                 <MenuItem  Foreground="Snow" HorizontalAlignment="Right" Click="TogglePlayList">
                     <MenuItem.Header>
