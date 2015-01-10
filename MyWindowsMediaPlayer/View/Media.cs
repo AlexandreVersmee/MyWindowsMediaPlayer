@@ -8,15 +8,25 @@ namespace MyWindowsMediaPlayer
 {
     public class Media
     {
-        public string path {  get;  set; }
-        
-        public Media(string path)
+        public string path { get; set; }
+        public string album { get; set; }
+        public string titre { get; set; }
+        public string artist { get; set; }
+        public DateTime creat { get; set; }
+        public TimeSpan duration { get; set; }
+        public long size { get; set; }
+
+        public Media(string path, string album, string titre, TimeSpan duration, string artist, long size, DateTime creat)
         {
             this.path = path;
+            this.album = album;
+            this.titre = titre;
+            this.duration = duration;
+            this.artist = artist;
+            this.size = size;
+            this.creat = creat;
         }
         public Media() { }
-
-
 
     }
 }

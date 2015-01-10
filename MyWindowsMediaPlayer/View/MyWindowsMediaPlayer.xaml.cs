@@ -31,7 +31,7 @@ namespace MyWindowsMediaPlayer
         private Boolean _isReplay;
         private Boolean _isRandom;
         private Boolean _userIsDraggingSlider = false;
-        private string _filter = "Video (*.avi, *.mp4, *.wmv)|*.avi;*.mp4;*.wmv |Audio (*.mp3)|*.mp3 |Pictures (*.jpg, *.bmp, *.png)|*.jpg;*.bmp;*.png ";
+        private string _filter = "Video (*.avi, *.mp4, *.wmv)|*.avi;*.mp4;*.wmv |Audio (*.mp3)|*.mp3; |Pictures (*.jpg, *.bmp, *.png)|*.jpg;*.bmp;*.png ";
 
         private int _index = 0;
 
@@ -375,10 +375,24 @@ namespace MyWindowsMediaPlayer
         {
             if (MyMediaPlayer.Source != null)
             {
-                string current = MyMediaPlayer.Source.AbsoluteUri;
+                string currentpath = MyMediaPlayer.Source.LocalPath;
 
-                Media med = new Media(current);
-                
+                TagLib.File tagFile = TagLib.File.Create(currentpath);
+
+                FileInfo f = new FileInfo(currentpath);
+
+                string album = tagFile.Tag.Album;
+                string titre = tagFile.Tag.Title;
+                TimeSpan duration = tagFile.Properties.Duration;
+                string artist = "";
+                if (tagFile.Tag.AlbumArtists.Length > 0)
+                    artist = tagFile.Tag.AlbumArtists[0];
+
+                long size = f.Length;
+                DateTime creat = f.CreationTime;
+                Media med = new Media(currentpath, album, titre, duration, artist, size, creat);
+
+
                 _listPlayList.Add(med);
                 this.PLayList.Items.Clear();
                 foreach (Media m in _listPlayList)
