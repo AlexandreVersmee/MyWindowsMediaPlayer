@@ -15,9 +15,11 @@ namespace MyWindowsMediaPlayer
         public DateTime creat { get; set; }
         public TimeSpan duration { get; set; }
         public long size { get; set; }
+        public string filename { get; set; }
 
-        public Media(string path, string album, string titre, TimeSpan duration, string artist, long size, DateTime creat)
+        public Media(string path, string album, string titre, TimeSpan duration, string artist, long size, DateTime creat, string filename)
         {
+            this.filename = filename;
             this.path = path;
             this.album = album;
             this.titre = titre;

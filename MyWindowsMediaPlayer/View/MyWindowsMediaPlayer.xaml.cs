@@ -381,6 +381,7 @@ namespace MyWindowsMediaPlayer
 
                 FileInfo f = new FileInfo(currentpath);
 
+                string filename = f.Name;
                 string album = tagFile.Tag.Album;
                 string titre = tagFile.Tag.Title;
                 TimeSpan duration = tagFile.Properties.Duration;
@@ -390,14 +391,14 @@ namespace MyWindowsMediaPlayer
 
                 long size = f.Length;
                 DateTime creat = f.CreationTime;
-                Media med = new Media(currentpath, album, titre, duration, artist, size, creat);
+                Media med = new Media(currentpath, album, titre, duration, artist, size, creat, filename);
 
 
                 _listPlayList.Add(med);
                 this.PLayList.Items.Clear();
                 foreach (Media m in _listPlayList)
                 {
-                    this.PLayList.Items.Add(m.path);
+                    this.PLayList.Items.Add(m.filename);
                 }
                 this.PLayList.Visibility = Visibility.Visible;
                 ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOn.png", UriKind.Relative));
