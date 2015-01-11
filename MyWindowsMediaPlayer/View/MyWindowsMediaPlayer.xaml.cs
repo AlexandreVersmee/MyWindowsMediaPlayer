@@ -495,5 +495,24 @@ namespace MyWindowsMediaPlayer
 
             }
         }
+        private void PlayOfList(object sender, MouseButtonEventArgs e)
+        {
+            if (this.PLayList.SelectedItem != null)
+            {
+                int i;
+                i = PLayList.SelectedIndex;
+
+                Media elem = _listPlayList.ElementAt(i);
+                MyMediaPlayer.Source = new Uri(elem.path);
+                if (!this._isPlaying)
+                {
+                    this.ResizeMode = ResizeMode.CanResize;
+                    this.WindowState = WindowState.Maximized;
+                    MyMediaPlayer.Play();
+                    BtnPlay.ToolTip = "Suspendre";
+                    this._isPlaying = true;
+                }
+            }
+        }
     }
 }
