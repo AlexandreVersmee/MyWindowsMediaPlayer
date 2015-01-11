@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Controls;
 using Microsoft.Win32;
 using System.Windows.Threading;
 using System.Windows.Controls.Primitives;
@@ -36,9 +37,8 @@ namespace MyWindowsMediaPlayer
         private int _index = 0;
 
         private ObservableCollection<Media> _listPlayList { set; get; }
-        private ObservableCollection<Media> _listBibliMus { set; get; }
-        private ObservableCollection<Media> _listBibliVid { set; get; }
-        private ObservableCollection<Media> _listBibliPic { set; get; }
+        private ObservableCollection<Media> _listBibli { set; get; }
+        
 
         public MainWindow()
         {
@@ -58,9 +58,8 @@ namespace MyWindowsMediaPlayer
 
             /*TMP*/
             this._listPlayList = new ObservableCollection<Media>();
-            this._listBibliMus = new ObservableCollection<Media>();
-            this._listBibliVid = new ObservableCollection<Media>();
-            this._listBibliPic = new ObservableCollection<Media>();
+            this._listBibli = new ObservableCollection<Media>();
+
 
             /* Fin TMP*/
 
@@ -107,38 +106,41 @@ namespace MyWindowsMediaPlayer
                 //Récupère les fichiers du dossier music
                 string[] filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic), "*.mp3", SearchOption.AllDirectories);
 
-                string artist;
-                string album;
-                string title;
-                string filename;
-                string type;
-                TimeSpan duree;
-                long   filesize;
-                DateTime date;
+                string Title;
+                string Artist;
+                string Type;
+                TimeSpan Duree;
+                string Album;
+                string FileName;
+                DateTime Date;
+                long SizeDoc;
+
                 
                 //string comment;
                 List<Media> items = new List<Media>();
               
 
                 // a renomer par dossier
-                _listBibliMus.Clear();
+                _listBibli.Clear();
                 foreach (string s in filePaths)
                 {
                     FileInfo f = new FileInfo(s);
                     TagLib.File tagFile = TagLib.File.Create(s);
 
-                    artist = "";
+                    Artist = "";
                     if (tagFile.Tag.AlbumArtists.Length > 0)
-                        artist = tagFile.Tag.AlbumArtists[0];
-                    album = tagFile.Tag.Album;
-                    title = tagFile.Tag.Title;
-                    filename = System.IO.Path.GetFileNameWithoutExtension(f.Name);
-                    duree = tagFile.Properties.Duration;
-                    filesize = f.Length;
-                    date = f.CreationTime;
-                    type = "Music";
-                    Media med = new Media(s, album, title, duree, artist, filesize, date, filename, type);
-                    _listBibliMus.Add(med);
+
+
+                        Artist = tagFile.Tag.AlbumArtists[0];
+                    Album = tagFile.Tag.Album;
+                    Title = tagFile.Tag.Title;
+                    FileName = System.IO.Path.GetFileNameWithoutExtension(f.Name);
+                    Duree = tagFile.Properties.Duration;
+                    SizeDoc = f.Length;
+                    Date = f.CreationTime;
+                    Type = "Music";
+                    Media med = new Media(s, Album, Title, Duree, Artist, SizeDoc, Date, FileName, Type);
+                    _listBibli.Add(med);
                     items.Add(med);
                 }
 
@@ -151,18 +153,18 @@ namespace MyWindowsMediaPlayer
                     FileInfo f = new FileInfo(s);
                     TagLib.File tagFile = TagLib.File.Create(s);
 
-                    artist = "";
+                    Artist = "";
                     if (tagFile.Tag.AlbumArtists.Length > 0)
-                        artist = tagFile.Tag.AlbumArtists[0];
-                    album = tagFile.Tag.Album;
-                    title = tagFile.Tag.Title;
-                    filename = System.IO.Path.GetFileNameWithoutExtension(f.Name);
-                    duree = tagFile.Properties.Duration;
-                    filesize = f.Length;
-                    date = f.CreationTime;
-                    type = "Picture";
-                    Media med = new Media(s, album, title, duree, artist, filesize, date, filename, type);
-                    _listBibliPic.Add(med);
+                        Artist = tagFile.Tag.AlbumArtists[0];
+                    Album = tagFile.Tag.Album;
+                    Title = tagFile.Tag.Title;
+                    FileName = System.IO.Path.GetFileNameWithoutExtension(f.Name);
+                    Duree = tagFile.Properties.Duration;
+                    SizeDoc = f.Length;
+                    Date = f.CreationTime;
+                    Type = "Picture";
+                    Media med = new Media(s, Album, Title, Duree, Artist, SizeDoc, Date, FileName, Type);
+                    _listBibli.Add(med);
                     items.Add(med);
                 }
 
@@ -174,18 +176,18 @@ namespace MyWindowsMediaPlayer
                     FileInfo f = new FileInfo(s);
                     TagLib.File tagFile = TagLib.File.Create(s);
 
-                    artist = "";
+                    Artist = "";
                     if (tagFile.Tag.AlbumArtists.Length > 0)
-                        artist = tagFile.Tag.AlbumArtists[0];
-                    album = tagFile.Tag.Album;
-                    title = tagFile.Tag.Title;
-                    filename = System.IO.Path.GetFileNameWithoutExtension(f.Name);
-                    duree = tagFile.Properties.Duration;
-                    filesize = f.Length;
-                    date = f.CreationTime;
-                    type = "Video";
-                    Media med = new Media(s, album, title, duree, artist, filesize, date, filename, type);
-                    _listBibliVid.Add(med);
+                        Artist = tagFile.Tag.AlbumArtists[0];
+                    Album = tagFile.Tag.Album;
+                    Title = tagFile.Tag.Title;
+                    FileName = System.IO.Path.GetFileNameWithoutExtension(f.Name);
+                    Duree = tagFile.Properties.Duration;
+                    SizeDoc = f.Length;
+                    Date = f.CreationTime;
+                    Type = "Video";
+                    Media med = new Media(s, Album, Title, Duree, Artist, SizeDoc, Date, FileName, Type);
+                    _listBibli.Add(med);
                     items.Add(med);
                 }
 
@@ -574,18 +576,20 @@ namespace MyWindowsMediaPlayer
 
         private void test(object sender, RoutedEventArgs e)
         {
+            Debug.Write("ziyyzefuizXXXXXXXXXXXXXXX");
+            //Library
             //ADD LIBRARY !!!!
 
             //Récupère les fichiers.mp3 du dossier music
-            string[] filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic), "*.mp3", SearchOption.AllDirectories);
+            //string[] filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic), "*.mp3", SearchOption.AllDirectories);
             //Debug.Write(filePaths[0]);
             //Cree le tag qui contient les infos du fichier
-            TagLib.File tagFile = TagLib.File.Create(filePaths[0]);
+            //TagLib.File tagFile = TagLib.File.Create(filePaths[0]);
             //Récupère les infos dans des strings
-            string artist = tagFile.Tag.FirstAlbumArtist;
-            string album = tagFile.Tag.Album;
-            string title = tagFile.Tag.Title;
-            Debug.Write(title);
+            //string artist = tagFile.Tag.FirstAlbumArtist;
+            //string album = tagFile.Tag.Album;
+            //string title = tagFile.Tag.Title;
+            //Debug.Write(title);
         }
 
         private void KickOfList(object sender, MouseButtonEventArgs e)
