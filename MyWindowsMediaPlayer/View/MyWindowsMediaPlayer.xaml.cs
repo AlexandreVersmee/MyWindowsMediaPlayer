@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Windows.Controls;
 using Microsoft.Win32;
 using System.Windows.Threading;
 using System.Windows.Controls.Primitives;
@@ -25,21 +24,30 @@ using TagLib;
 
 namespace MyWindowsMediaPlayer
 {
-    public enum EType { Picture, Video, Music };
+    /*Globale*/
+    #region EType
 
+    public enum EType { Picture, Video, Music };
+    #endregion
+
+    /*Fenetre Principale*/
     public partial class MainWindow : Window
     {
+        /*Variables*/
+        #region _isPlaying _isReplay _index ...
+
         private Boolean _isPlaying;
-                private Boolean _isReplay;
+        private Boolean _isReplay;
         private Boolean _isRandom;
         private Boolean _userIsDraggingSlider = false;
-        private string _filter = "Video (*.avi, *.mp4, *.wmv)|*.avi;*.mp4;*.wmv |Audio (*.mp3)|*.mp3; |Pictures (*.jpg, *.bmp, *.png)|*.jpg;*.bmp;*.png ";
-
-        private int _index = 0;
-
+        private string  _filter = "Video (*.avi, *.mp4, *.wmv)|*.avi;*.mp4;*.wmv |Audio (*.mp3)|*.mp3; |Pictures (*.jpg, *.bmp, *.png)|*.jpg;*.bmp;*.png ";
+        private int     _index = 0;
         private ObservableCollection<Media> _listPlayList { set; get; }
         private ObservableCollection<Media> _listBibli { set; get; }
-        
+        #endregion
+
+        /*Initialisation*/
+        #region MainWindow
 
         public MainWindow()
         {
@@ -48,24 +56,19 @@ namespace MyWindowsMediaPlayer
             MyMediaPlayer.Drop += new DragEventHandler(MyMediaPlayerDrop);
             MyMediaPlayer.MediaFailed += MyMediaPlayerMediaFailed;
             MyMediaPlayer.MediaOpened += MyMediaPlayerMediaOpened;
-         
             MyMediaPlayer.LoadedBehavior = MediaState.Manual;
             MyMediaPlayer.UnloadedBehavior = MediaState.Manual;
-
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timerTick;
-            timer.Start();
-
-            
+            timer.Start();            
             this._listPlayList = new ObservableCollection<Media>();
             this._listBibli = new ObservableCollection<Media>();
-
-
             this._isPlaying = false;
             this._isRandom = false;
             this._isReplay = false;
         }
+        #endregion
 
         /* Menu */
         #region Menu
@@ -220,11 +223,15 @@ namespace MyWindowsMediaPlayer
 
 
         /* Media Element Functions */
-        #region Media Element Functions
+        #region MediaFailed Drop MediaEnded MediaOpened
+
+        /*In case of fail when we open media*/
         private void MyMediaPlayerMediaFailed(object sender, ExceptionRoutedEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine(e);
         }
+
+        /*Drop media in MediaElement*/
         private void MyMediaPlayerDrop(object sender, DragEventArgs e)
         {
             this.WindowState = WindowState.Maximized;
@@ -242,6 +249,8 @@ namespace MyWindowsMediaPlayer
                 this._isPlaying = true;
             }
         }
+
+        /*Event end media for replay*/
         private void MyMediaPlayerMediaEnded(object sender, RoutedEventArgs e)
         {
             try
@@ -257,6 +266,8 @@ namespace MyWindowsMediaPlayer
                 System.Diagnostics.Debug.WriteLine(ex);
             }
         }
+
+        /*Init time for slider when we open media*/
         private void MyMediaPlayerMediaOpened(object sender, RoutedEventArgs e)
         {
             if (MyMediaPlayer.NaturalDuration.HasTimeSpan)
@@ -266,13 +277,14 @@ namespace MyWindowsMediaPlayer
                 SliderProgress.SmallChange = 1;
                 SliderProgress.LargeChange = Math.Min(10, ts.Seconds / 10);
             }
-        //            MyMediaPlayer.Visibility = Visibility.Visible;
         }
 
         #endregion
 
         /* Slider Time Function */
-        #region Slider Time Function
+        #region timerTick
+
+        /*Maj time of media*/
         private void timerTick(object sender, EventArgs e)
         {
             if ((MyMediaPlayer.Source != null) && (MyMediaPlayer.NaturalDuration.HasTimeSpan) && (!_userIsDraggingSlider))
@@ -470,7 +482,9 @@ namespace MyWindowsMediaPlayer
         #endregion
 
         /* Tools */
-        #region Tools
+        #region changeImageButton
+
+        /*Change image of button*/
         private void changeImageButton(Button button, string path)
         {
             button.Content = new Image
@@ -607,6 +621,9 @@ namespace MyWindowsMediaPlayer
                     items.Add(m);
                 }
                 Library.ItemsSource = items;
+                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Library.ItemsSource);
+                PropertyGroupDescription groupDescription = new PropertyGroupDescription("Type");
+                view.GroupDescriptions.Add(groupDescription);
             }
         }
 
