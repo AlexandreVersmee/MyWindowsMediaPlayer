@@ -36,9 +36,7 @@ namespace MyWindowsMediaPlayer
         /*Variables*/
         #region _isPlaying _isReplay _index ...
 
-        private Boolean _isPlaying;
-        private Boolean _isReplay;
-        private Boolean _isRandom;
+        private Boolean _isPlaying, _isReplay, _isRandom, _isMute;
         private Boolean _userIsDraggingSlider = false;
         private string  _filter = "Video (*.avi, *.mp4, *.wmv)|*.avi;*.mp4;*.wmv |Audio (*.mp3)|*.mp3; |Pictures (*.jpg, *.bmp, *.png)|*.jpg;*.bmp;*.png ";
         private int     _index = 0;
@@ -66,6 +64,7 @@ namespace MyWindowsMediaPlayer
             this._listBibli = new ObservableCollection<Media>();
             this._isPlaying = false;
             this._isRandom = false;
+            this._isMute = false;
             this._isReplay = false;
         }
         #endregion
@@ -391,19 +390,19 @@ namespace MyWindowsMediaPlayer
 
         private void MuteClick(object sender, RoutedEventArgs e)
         {
-            if (!this._isPlaying)
+            if (!this._isMute)
             {
                 MyMediaPlayer.IsMuted = !MyMediaPlayer.IsMuted;
                 this.changeImageButton(BtnSound, "../Images/Mute.png");
                 BtnSound.ToolTip = "Muet";
-                this._isPlaying = true;
+                this._isMute = true;
             }
             else 
             {
                 MyMediaPlayer.IsMuted = !MyMediaPlayer.IsMuted;
                 this.changeImageButton(BtnSound, "../Images/Volume.png");
                 BtnSound.ToolTip = "Volume";
-                this._isPlaying = false;
+                this._isMute = false;
             }
         }
 
@@ -438,6 +437,7 @@ namespace MyWindowsMediaPlayer
             this.changeImageButton(BtnPlay, "../Images/Play.png");
             BtnPlay.ToolTip = "Lire";
             this._isPlaying = false;
+            SliderProgress.Value = 0;
             MyMediaPlayer.Close();
         }
 
