@@ -55,12 +55,11 @@ namespace MyWindowsMediaPlayer
             timer.Tick += timerTick;
             timer.Start();
 
-            /*TMP*/
+            
             this._listPlayList = new ObservableCollection<Media>();
             this._listBibli = new ObservableCollection<Media>();
 
-            /* Fin TMP*/
-
+           
             this._isPlaying = false;
             this._isRandom = false;
             this._isReplay = false;
@@ -136,7 +135,7 @@ namespace MyWindowsMediaPlayer
                     Media med = new Media(s, Album, Title, Duree, Artist, SizeDoc, Date, FileName);
                     _listBibli.Add(med);
                     items.Add(med);
-                    Debug.WriteLine(Title);
+                    
                 }
 
                 Library.ItemsSource = items;
@@ -510,22 +509,41 @@ namespace MyWindowsMediaPlayer
 
         }
 
-        private void test(object sender, RoutedEventArgs e)
+        private void SortBibli(string column)
         {
-            Debug.Write("ziyyzefuizXXXXXXXXXXXXXXX");
-            //Library
-            //ADD LIBRARY !!!!
+            if (column.Equals("Title") == true)
+                _listBibli = new ObservableCollection<Media>(from m in _listBibli orderby m.Title select m);
+            else if (column.Equals("Artist") == true)
+                _listBibli = new ObservableCollection<Media>(from m in _listBibli orderby m.Artist select m);
+            else if (column.Equals("Duree") == true)
+                _listBibli = new ObservableCollection<Media>(from m in _listBibli orderby m.Duree select m);
+            else if (column.Equals("Album") == true)
+                _listBibli = new ObservableCollection<Media>(from m in _listBibli orderby m.Album select m);
+            else if (column.Equals("FileName") == true)
+                _listBibli = new ObservableCollection<Media>(from m in _listBibli orderby m.FileName select m);
+            else if (column.Equals("Date") == true)
+                _listBibli = new ObservableCollection<Media>(from m in _listBibli orderby m.Date select m);
+            else if (column.Equals("SizeDoc") == true)
+                _listBibli = new ObservableCollection<Media>(from m in _listBibli orderby m.SizeDoc select m);
+        }
 
-            //Récupère les fichiers.mp3 du dossier music
-            //string[] filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic), "*.mp3", SearchOption.AllDirectories);
-            //Debug.Write(filePaths[0]);
-            //Cree le tag qui contient les infos du fichier
-            //TagLib.File tagFile = TagLib.File.Create(filePaths[0]);
-            //Récupère les infos dans des strings
-            //string artist = tagFile.Tag.FirstAlbumArtist;
-            //string album = tagFile.Tag.Album;
-            //string title = tagFile.Tag.Title;
-            //Debug.Write(title);
+        private void ClickToSort(object sender, RoutedEventArgs e)
+        {
+            
+            GridViewColumnHeader headerClicked = e.OriginalSource as GridViewColumnHeader;
+
+            string column = headerClicked.Column.Header as string;
+
+            this.SortBibli(column);
+            List<Media> items = new List<Media>();
+
+            foreach(Media m in _listBibli)
+            {
+                items.Add(m);
+            }
+            
+            Library.ItemsSource = items;
+           
         }
 
         private void KickOfList(object sender, MouseButtonEventArgs e)

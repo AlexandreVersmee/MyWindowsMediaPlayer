@@ -42,7 +42,7 @@
                 </Menu.ItemsPanel>
                 <MenuItem Header="_File" Foreground="Snow">
                     <MenuItem Header="_Open file" Foreground="Black" Click="OpenClick"/>
-                    <MenuItem Header="_Add to playlist" Foreground="Black" Click="test"/>
+                    <MenuItem Header="_Add to playlist" Foreground="Black" Click="ClickToSort"/>
                     <MenuItem Header="_Quit" Foreground="Black" Click="ExitClick"/>
                 </MenuItem>
                 <MenuItem Header="_Playlist" Foreground="Snow">
@@ -164,7 +164,7 @@
             </ListBox>
 
             <!-- Library Media -->
-            <ListView x:Name="Library" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" Background="#FFC7BFBF" Panel.ZIndex="4" MinWidth="318" MinHeight="257" HorizontalContentAlignment="Stretch" Margin="2,2,147,27" GridViewColumnHeader.Click="test">
+            <ListView x:Name="Library" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" Background="#FFC7BFBF" Panel.ZIndex="4" MinWidth="318" MinHeight="257" HorizontalContentAlignment="Stretch" Margin="2,2,147,27" GridViewColumnHeader.Click="ClickToSort">
                 <ListView.Effect>
                     <DropShadowEffect Direction="247" Color="#FF4F4F4F" BlurRadius="8"/>
                 </ListView.Effect>
