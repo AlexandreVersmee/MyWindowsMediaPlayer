@@ -429,7 +429,9 @@ namespace MyWindowsMediaPlayer
         private void OpenPlaylist(object sender, RoutedEventArgs e)
         {
             OpenFileDialog file = new OpenFileDialog();
+            string filterXml = "Document Xml (*.xml)|*.xml;";
 
+            file.Filter = filterXml;
             file.Multiselect = false;
             bool? userClickedOk = file.ShowDialog();
 
@@ -476,10 +478,6 @@ namespace MyWindowsMediaPlayer
             {
                 int i;
                 i = PLayList.SelectedIndex;
-
-                Debug.WriteLine(i);
-                Debug.WriteLine(_listPlayList.Count);
-                Debug.WriteLine(this.PLayList.Items.Count);
 
                 if (i >= 0)
                 {
