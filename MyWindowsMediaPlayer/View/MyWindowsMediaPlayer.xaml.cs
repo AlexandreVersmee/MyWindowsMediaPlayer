@@ -437,20 +437,24 @@ namespace MyWindowsMediaPlayer
 
             if (userClickedOk == true)
             {
-                XmlSerializer xs = new XmlSerializer(typeof(ObservableCollection<Media>));
-                using (StreamReader rd = new StreamReader(file.FileName))
+                string ext = System.IO.Path.GetExtension(file.FileName);
+
+                if (ext.Equals(".xml") == true)
                 {
-                    ObservableCollection<Media> p = xs.Deserialize(rd) as ObservableCollection<Media>;
-
-                    this.PLayList.Items.Clear();
-                    foreach(Media m in p)
+                    XmlSerializer xs = new XmlSerializer(typeof(ObservableCollection<Media>));
+                    using (StreamReader rd = new StreamReader(file.FileName))
                     {
-                        _listPlayList.Add(m);
-                        this.PLayList.Items.Add(m.filename);
-                    }
-                    this.PLayList.Visibility = Visibility.Visible;
-                    ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOn.png", UriKind.Relative));
+                        ObservableCollection<Media> p = xs.Deserialize(rd) as ObservableCollection<Media>;
 
+                        this.PLayList.Items.Clear();
+                        foreach (Media m in p)
+                        {
+                            _listPlayList.Add(m);
+                            this.PLayList.Items.Add(m.filename);
+                        }
+                        this.PLayList.Visibility = Visibility.Visible;
+                        ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOn.png", UriKind.Relative));
+                    }
                 }
             }
 
