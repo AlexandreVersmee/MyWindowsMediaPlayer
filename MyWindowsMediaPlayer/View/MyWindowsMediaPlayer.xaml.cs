@@ -381,7 +381,7 @@ namespace MyWindowsMediaPlayer
 
                 FileInfo f = new FileInfo(currentpath);
 
-                string filename = f.Name;
+                string filename = System.IO.Path.GetFileNameWithoutExtension(f.Name);
                 string album = tagFile.Tag.Album;
                 string titre = tagFile.Tag.Title;
                 TimeSpan duration = tagFile.Properties.Duration;
@@ -439,11 +439,14 @@ namespace MyWindowsMediaPlayer
                 {
                     ObservableCollection<Media> p = xs.Deserialize(rd) as ObservableCollection<Media>;
 
-                    /* pour le dev a sup*/
-                    foreach (Media m in p)
+                    this.PLayList.Items.Clear();
+                    foreach(Media m in p)
                     {
-                        Debug.WriteLine(m.path);
+                        this.PLayList.Items.Add(m.filename);
                     }
+                    this.PLayList.Visibility = Visibility.Visible;
+                    ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOn.png", UriKind.Relative));
+
                 }
             }
 
