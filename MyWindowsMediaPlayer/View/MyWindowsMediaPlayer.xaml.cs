@@ -129,8 +129,6 @@ namespace MyWindowsMediaPlayer
 
                     Artist = "";
                     if (tagFile.Tag.AlbumArtists.Length > 0)
-
-
                         Artist = tagFile.Tag.AlbumArtists[0];
                     Album = tagFile.Tag.Album;
                     Title = tagFile.Tag.Title;
@@ -147,7 +145,7 @@ namespace MyWindowsMediaPlayer
                 Library.ItemsSource = items;
 
                 //Récupère les fiches du dossier Photos
-                filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "*.bmp;*.jpg;*.png", SearchOption.AllDirectories);
+                filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "*.jpg", SearchOption.AllDirectories);
                 foreach (string s in filePaths)
                 {
                     FileInfo f = new FileInfo(s);
@@ -170,7 +168,7 @@ namespace MyWindowsMediaPlayer
 
                 Library.ItemsSource = items;
                 //Récupère les fichiers du dossier Videos
-                filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "*.avi;*.mp4;*.wmw", SearchOption.AllDirectories);
+                filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "*.avi", SearchOption.AllDirectories);
                 foreach (string s in filePaths)
                 {
                     FileInfo f = new FileInfo(s);
@@ -193,17 +191,9 @@ namespace MyWindowsMediaPlayer
 
                 Library.ItemsSource = items;
                
-               CollectionView viewPic = (CollectionView)CollectionViewSource.GetDefaultView(Library.ItemsSource);
-                PropertyGroupDescription groupDescriptionPic = new PropertyGroupDescription("Type");
-                viewPic.GroupDescriptions.Add(groupDescriptionPic);
-
-                CollectionView viewVid = (CollectionView)CollectionViewSource.GetDefaultView(Library.ItemsSource);
-                PropertyGroupDescription groupDescriptionVid = new PropertyGroupDescription("Type");
-                viewVid.GroupDescriptions.Add(groupDescriptionVid);
-
-                CollectionView viewMus = (CollectionView)CollectionViewSource.GetDefaultView(Library.ItemsSource);
-                PropertyGroupDescription groupDescriptionMus = new PropertyGroupDescription("Type");
-                viewMus.GroupDescriptions.Add(groupDescriptionMus);
+               CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Library.ItemsSource);
+                PropertyGroupDescription groupDescription = new PropertyGroupDescription("Type");
+                view.GroupDescriptions.Add(groupDescription);
               
                 ImgLibrary.Source = new BitmapImage(new Uri(@"../Images/LibraryOn.png", UriKind.Relative));
             }
