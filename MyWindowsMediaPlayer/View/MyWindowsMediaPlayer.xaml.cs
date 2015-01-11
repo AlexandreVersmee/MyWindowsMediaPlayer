@@ -334,6 +334,7 @@ namespace MyWindowsMediaPlayer
                     BtnPlay.ToolTip = "Suspendre";
                     this._isPlaying = true;
                 }
+                PLayList.Items.Clear();
                 PLayList.Visibility = Visibility.Hidden;
                 ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOff.png", UriKind.Relative));
             }
@@ -355,7 +356,7 @@ namespace MyWindowsMediaPlayer
                     MyMediaPlayer.Play();
                     BtnPlay.ToolTip = "Suspendre";
                     this._isPlaying = true;
-                }  
+                }
                 Library.Visibility = Visibility.Hidden;
                 ImgLibrary.Source = new BitmapImage(new Uri(@"../Images/LibraryOff.png", UriKind.Relative));
             }
