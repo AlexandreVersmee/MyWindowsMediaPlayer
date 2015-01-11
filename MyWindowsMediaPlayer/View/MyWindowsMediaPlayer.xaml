@@ -171,12 +171,12 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Title" Width="50" DisplayMemberBinding="{Binding Title}" />
-                        <GridViewColumn Header="Artiste" Width="50" DisplayMemberBinding="{Binding Artist}" />
-                        <GridViewColumn Header="Durée" Width="50" DisplayMemberBinding="{Binding Duree}" />
+                        <GridViewColumn Header="Artist" Width="50" DisplayMemberBinding="{Binding Artist}" />
+                        <GridViewColumn Header="Duree" Width="50" DisplayMemberBinding="{Binding Duree}" />
                         <GridViewColumn Header="Album" Width="50" DisplayMemberBinding="{Binding Album}" />
-                        <GridViewColumn Header="Nom du fichier" Width="50" DisplayMemberBinding="{Binding FileName}" />
+                        <GridViewColumn Header="FileName" Width="50" DisplayMemberBinding="{Binding FileName}" />
                         <GridViewColumn Header="Date" Width="50" DisplayMemberBinding="{Binding Date}" />
-                        <GridViewColumn Header="Taille document" Width="50" DisplayMemberBinding="{Binding SizeDoc}" />
+                        <GridViewColumn Header="SizeDoc" Width="50" DisplayMemberBinding="{Binding SizeDoc}" />
                     </GridView>
                 </ListView.View>
             </ListView>

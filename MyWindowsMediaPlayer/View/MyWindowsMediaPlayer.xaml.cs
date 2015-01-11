@@ -85,7 +85,7 @@ namespace MyWindowsMediaPlayer
                 PLayList.Visibility = Visibility.Visible;
                 foreach (Media m in _listPlayList)
                 {
-                    this.PLayList.Items.Add(m.filename);
+                    this.PLayList.Items.Add(m.FileName);
                 }
                 ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOn.png", UriKind.Relative));
             }
@@ -103,13 +103,13 @@ namespace MyWindowsMediaPlayer
                 //Récupère les fichiers.mp3 du dossier music
                 string[] filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic), "*.mp3", SearchOption.AllDirectories);
 
-                string artist;
-                string album;
-                string title;
-                string filename;
-                TimeSpan duree;
-                long   filesize;
-                DateTime date;
+                string Title;
+                string Artist;
+                TimeSpan Duree;
+                string Album;
+                string FileName;
+                DateTime Date;
+                long SizeDoc;
                 
                 //string comment;
                 List<Media> items = new List<Media>();
@@ -123,19 +123,19 @@ namespace MyWindowsMediaPlayer
                     FileInfo f = new FileInfo(s);
                     TagLib.File tagFile = TagLib.File.Create(s);
 
-                    artist = "";
+                    Artist = "";
                     if (tagFile.Tag.AlbumArtists.Length > 0)
-                        artist = tagFile.Tag.AlbumArtists[0];
-                    album = tagFile.Tag.Album;
-                    title = tagFile.Tag.Title;
-                    filename = System.IO.Path.GetFileNameWithoutExtension(f.Name);
-                    duree = tagFile.Properties.Duration;
-                    filesize = f.Length;
-                    date = f.CreationTime;
-                    Media med = new Media(s, album, title, duree, artist, filesize, date, filename);
+                        Artist = tagFile.Tag.AlbumArtists[0];
+                    Album = tagFile.Tag.Album;
+                    Title = tagFile.Tag.Title;
+                    FileName = System.IO.Path.GetFileNameWithoutExtension(f.Name);
+                    Duree = tagFile.Properties.Duration;
+                    SizeDoc = f.Length;
+                    Date = f.CreationTime;
+                    Media med = new Media(s, Album, Title, Duree, Artist, SizeDoc, Date, FileName);
                     _listBibli.Add(med);
                     items.Add(med);
-                    Debug.WriteLine(title);
+                    Debug.WriteLine(Title);
                 }
 
                 Library.ItemsSource = items;
@@ -447,7 +447,7 @@ namespace MyWindowsMediaPlayer
                 this.PLayList.Items.Clear();
                 foreach (Media m in _listPlayList)
                 {
-                    this.PLayList.Items.Add(m.filename);
+                    this.PLayList.Items.Add(m.FileName);
                 }
                 this.PLayList.Visibility = Visibility.Visible;
                 ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOn.png", UriKind.Relative));
@@ -499,7 +499,7 @@ namespace MyWindowsMediaPlayer
                         foreach (Media m in p)
                         {
                             _listPlayList.Add(m);
-                            this.PLayList.Items.Add(m.filename);
+                            this.PLayList.Items.Add(m.FileName);
                         }
                         this.PLayList.Visibility = Visibility.Visible;
                         ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOn.png", UriKind.Relative));
@@ -538,7 +538,7 @@ namespace MyWindowsMediaPlayer
                     this.PLayList.Items.Clear();
                     foreach (Media m in _listPlayList)
                     {
-                        this.PLayList.Items.Add(m.filename);
+                        this.PLayList.Items.Add(m.FileName);
                     }
                 }
 
