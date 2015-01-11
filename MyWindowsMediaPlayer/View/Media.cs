@@ -15,11 +15,11 @@ namespace MyWindowsMediaPlayer
         public DateTime Date { get; set; }
         public TimeSpan Duree { get; set; }
         public long SizeDoc { get; set; }
-        public string Type { get; set; }
+        public EType Type { get; set; }
         public string FileName { get; set; }
 
 
-        public Media(string path, string album, string titre, TimeSpan duration, string artist, long size, DateTime creat, string filename, string type)
+        public Media(string path, string album, string titre, TimeSpan duration, string artist, long size, DateTime creat, string filename, EType type)
         {
             this.FileName = filename;
             this.path = path;

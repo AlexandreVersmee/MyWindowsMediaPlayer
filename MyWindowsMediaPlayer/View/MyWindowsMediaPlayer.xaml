@@ -164,7 +164,9 @@
             </ListBox>
 
             <!-- Library Media -->
-            <ListView x:Name="Library" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" Background="#FFC7BFBF" Panel.ZIndex="4" MinWidth="318" MinHeight="257" HorizontalContentAlignment="Stretch" Margin="2,2,147,27" GridViewColumnHeader.Click="ClickToSort">
+
+            <ListView x:Name="Library" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" Background="#FFC7BFBF" Panel.ZIndex="4" MinWidth="318" MinHeight="257" HorizontalContentAlignment="Stretch" Margin="2,2,147,27" GridViewColumnHeader.Click="ClickToSort" Visibility="Hidden">
+
                 <ListView.Effect>
                     <DropShadowEffect Direction="247" Color="#FF4F4F4F" BlurRadius="8"/>
                 </ListView.Effect>
@@ -189,8 +191,8 @@
                                             <Expander IsExpanded="True">
                                                 <Expander.Header>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding Type}" FontWeight="Bold" Foreground="white" FontSize="22" VerticalAlignment="Bottom" />
-                                                        <TextBlock Text=" item(s)" FontSize="22" Foreground="White" FontStyle="Italic" VerticalAlignment="Bottom" />
+                                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Blue" FontSize="22" VerticalAlignment="Bottom" />
+                                                        <TextBlock Text="{Binding ItemCount}" FontSize="22" Foreground="Coral" FontWeight="Bold" FontStyle="Italic" Margin="10,0,0,0" VerticalAlignment="Bottom" />
                                                     </StackPanel>
                                                 </Expander.Header>
                                                 <ItemsPresenter />

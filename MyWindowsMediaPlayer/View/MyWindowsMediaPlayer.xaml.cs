@@ -25,11 +25,12 @@ using TagLib;
 
 namespace MyWindowsMediaPlayer
 {
+    public enum EType { Picture, Video, Music };
 
     public partial class MainWindow : Window
     {
         private Boolean _isPlaying;
-        private Boolean _isReplay;
+                private Boolean _isReplay;
         private Boolean _isRandom;
         private Boolean _userIsDraggingSlider = false;
         private string _filter = "Video (*.avi, *.mp4, *.wmv)|*.avi;*.mp4;*.wmv |Audio (*.mp3)|*.mp3; |Pictures (*.jpg, *.bmp, *.png)|*.jpg;*.bmp;*.png ";
@@ -73,6 +74,8 @@ namespace MyWindowsMediaPlayer
             System.Environment.Exit(0);
         }
 
+        
+
         private void TogglePlayList(object sender, RoutedEventArgs e)
         {
             if (PLayList.Visibility == Visibility.Visible)
@@ -106,7 +109,7 @@ namespace MyWindowsMediaPlayer
 
                 string Title;
                 string Artist;
-                string Type;
+                EType Type;
                 TimeSpan Duree;
                 string Album;
                 string FileName;
@@ -134,13 +137,12 @@ namespace MyWindowsMediaPlayer
                     Duree = tagFile.Properties.Duration;
                     SizeDoc = f.Length;
                     Date = f.CreationTime;
-                    Type = "Music";
+                    Type = EType.Music;
                     Media med = new Media(s, Album, Title, Duree, Artist, SizeDoc, Date, FileName, Type);
                     _listBibli.Add(med);
                     items.Add(med);
 
                 }
-
                 Library.ItemsSource = items;
 
                 //Récupère les fiches du dossier Photos
@@ -159,19 +161,23 @@ namespace MyWindowsMediaPlayer
                     Duree = tagFile.Properties.Duration;
                     SizeDoc = f.Length;
                     Date = f.CreationTime;
-                    Type = "Picture";
+                    Type = EType.Picture;
                     Media med = new Media(s, Album, Title, Duree, Artist, SizeDoc, Date, FileName, Type);
                     _listBibli.Add(med);
                     items.Add(med);
+                    Debug.WriteLine(med.Type);
                 }
+
+                
 
                 Library.ItemsSource = items;
                 //Récupère les fichiers du dossier Videos
-                filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "*.avi", SearchOption.AllDirectories);
+             /*   filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "*.avi", SearchOption.AllDirectories);
                 foreach (string s in filePaths)
                 {
                     FileInfo f = new FileInfo(s);
-                    TagLib.File tagFile = TagLib.File.Create(s);
+                 
+                       TagLib.File tagFile = TagLib.File.Create(s);
 
                     Artist = "";
                     if (tagFile.Tag.AlbumArtists.Length > 0)
@@ -185,18 +191,23 @@ namespace MyWindowsMediaPlayer
                     Type = "Video";
                     Media med = new Media(s, Album, Title, Duree, Artist, SizeDoc, Date, FileName, Type);
                     _listBibli.Add(med);
+                
                     items.Add(med);
+                    Debug.WriteLine(med.Type);
                 }
-
+               */ 
                 Library.ItemsSource = items;
+
                
                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Library.ItemsSource);
-                PropertyGroupDescription groupDescription = new PropertyGroupDescription("Type");
-                view.GroupDescriptions.Add(groupDescription);
+               PropertyGroupDescription groupDescription = new PropertyGroupDescription("Type");
+               view.GroupDescriptions.Add(groupDescription);
               
                 ImgLibrary.Source = new BitmapImage(new Uri(@"../Images/LibraryOn.png", UriKind.Relative));
             }
         }
+
+       
 
         #endregion
 
@@ -494,7 +505,7 @@ namespace MyWindowsMediaPlayer
 
                 long size = f.Length;
                 DateTime creat = f.CreationTime;
-                Media med = new Media(currentpath, album, titre, duration, artist, size, creat, filename, "");
+                Media med = new Media(currentpath, album, titre, duration, artist, size, creat, filename, EType.Music);
 
 
                 _listPlayList.Add(med);
@@ -583,21 +594,20 @@ namespace MyWindowsMediaPlayer
 
         private void ClickToSort(object sender, RoutedEventArgs e)
         {
-            
-            GridViewColumnHeader headerClicked = e.OriginalSource as GridViewColumnHeader;
 
-            string column = headerClicked.Column.Header as string;
-
-            this.SortBibli(column);
-            List<Media> items = new List<Media>();
-
-            foreach(Media m in _listBibli)
+            if (e.OriginalSource.GetType() == typeof(GridViewColumnHeader))
             {
-                items.Add(m);
+                GridViewColumnHeader headerClicked = e.OriginalSource as GridViewColumnHeader;
+
+                string column = headerClicked.Column.Header as string;
+                this.SortBibli(column);
+                List<Media> items = new List<Media>();
+                foreach(Media m in _listBibli)
+                {
+                    items.Add(m);
+                }
+                Library.ItemsSource = items;
             }
-            
-            Library.ItemsSource = items;
-           
         }
 
         private void KickOfList(object sender, MouseButtonEventArgs e)
@@ -639,4 +649,6 @@ namespace MyWindowsMediaPlayer
             }
         }
     }
+
 }
+
