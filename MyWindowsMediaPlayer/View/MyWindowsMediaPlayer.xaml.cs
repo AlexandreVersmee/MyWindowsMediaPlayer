@@ -130,7 +130,9 @@ namespace MyWindowsMediaPlayer
             if (!this._isPlaying)
             {
                 MyMediaPlayer.Play();
+                this.changeImageButton(BtnPlay, "../Images/Pause.png");
                 BtnPlay.ToolTip = "Suspendre";
+                this._isPlaying = true;
             }
         }
         private void MyMediaPlayerMediaEnded(object sender, RoutedEventArgs e)
@@ -252,7 +254,6 @@ namespace MyWindowsMediaPlayer
                     this.changeImageButton(BtnPlay, "../Images/Pause.png");
                     BtnPlay.ToolTip = "Suspendre";
                     this._isPlaying = true;
-
             }
             else
             {

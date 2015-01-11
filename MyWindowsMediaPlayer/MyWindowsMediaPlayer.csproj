@@ -104,17 +104,8 @@
     <Folder Include="ViewModel\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Eject.png" />
-    <Resource Include="Images\Left.png" />
     <Resource Include="Images\Microphone.png" />
-    <Resource Include="Images\Mute.png" />
-    <Resource Include="Images\Pause.png" />
     <Resource Include="Images\Play.png" />
-    <Resource Include="Images\Record.png" />
-    <Resource Include="Images\Right.png" />
-    <Resource Include="Images\StepForward.png" />
-    <Resource Include="Images\Stop.png" />
-    <Resource Include="Images\Volume.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\RepeatOff.png" />
@@ -137,6 +128,24 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\LibraryOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Mute.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Volume.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Next.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Previous.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Pause.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
