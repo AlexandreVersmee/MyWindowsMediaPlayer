@@ -494,33 +494,27 @@ namespace MyWindowsMediaPlayer
         }
         #endregion
 
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
 
-        }
-        
+        /*Add current file in playlist*/        
         private void AddInPlayList(object sender, RoutedEventArgs e)
         {
             if (MyMediaPlayer.Source != null)
             {
-                string currentpath = MyMediaPlayer.Source.LocalPath;
-
+                string      currentpath = MyMediaPlayer.Source.LocalPath;
                 TagLib.File tagFile = TagLib.File.Create(currentpath);
+                FileInfo    f = new FileInfo(currentpath);
+                string      filename = System.IO.Path.GetFileNameWithoutExtension(f.Name);
+                string      album = tagFile.Tag.Album;
+                string      titre = tagFile.Tag.Title;
+                TimeSpan    duration = tagFile.Properties.Duration;
+                string      artist = "";
 
-                FileInfo f = new FileInfo(currentpath);
-
-                string filename = System.IO.Path.GetFileNameWithoutExtension(f.Name);
-                string album = tagFile.Tag.Album;
-                string titre = tagFile.Tag.Title;
-                TimeSpan duration = tagFile.Properties.Duration;
-                string artist = "";
                 if (tagFile.Tag.AlbumArtists.Length > 0)
                     artist = tagFile.Tag.AlbumArtists[0];
 
-                long size = f.Length;
-                DateTime creat = f.CreationTime;
-                Media med = new Media(currentpath, album, titre, duration, artist, size, creat, filename, EType.Music);
-
+                long        size = f.Length;
+                DateTime    creat = f.CreationTime;
+                Media       med = new Media(currentpath, album, titre, duration, artist, size, creat, filename, EType.Music);
 
                 _listPlayList.Add(med);
                 this.PLayList.Items.Clear();
@@ -533,34 +527,33 @@ namespace MyWindowsMediaPlayer
             }
         }
 
+        /*Save the current playlist*/
         private void SavePlayList(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog box = new SaveFileDialog();
+            SaveFileDialog  box = new SaveFileDialog();
             box.FileName = "Document";
             box.DefaultExt = ".xml";
             box.Filter = "Playlist file (.xml)|*.xml";
-
             Nullable<bool> result = box.ShowDialog();
+
             if (result == true)
             {
-                string filename = box.FileName;
+                string          filename = box.FileName;
+                XmlSerializer   xs = new XmlSerializer(typeof(ObservableCollection<Media>));
 
-                XmlSerializer xs = new XmlSerializer(typeof(ObservableCollection<Media>));
                 using (StreamWriter wr = new StreamWriter(filename))
-                {
                     xs.Serialize(wr, _listPlayList);
-                }
             }
         }
 
+        /*Open a playlist already saved */
         private void OpenPlaylist(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog file = new OpenFileDialog();
-            string filterXml = "Document Xml (*.xml)|*.xml;";
-
+            OpenFileDialog  file = new OpenFileDialog();
+            string          filterXml = "Document Xml (*.xml)|*.xml;";
+            bool?           userClickedOk = file.ShowDialog();
             file.Filter = filterXml;
             file.Multiselect = false;
-            bool? userClickedOk = file.ShowDialog();
 
             if (userClickedOk == true)
             {
@@ -568,7 +561,8 @@ namespace MyWindowsMediaPlayer
 
                 if (ext.Equals(".xml") == true)
                 {
-                    XmlSerializer xs = new XmlSerializer(typeof(ObservableCollection<Media>));
+                    XmlSerializer   xs = new XmlSerializer(typeof(ObservableCollection<Media>));
+
                     using (StreamReader rd = new StreamReader(file.FileName))
                     {
                         ObservableCollection<Media> p = xs.Deserialize(rd) as ObservableCollection<Media>;
@@ -588,6 +582,7 @@ namespace MyWindowsMediaPlayer
 
         }
 
+        /*Sort column by asc*/
         private void SortBibli(string column)
         {
             if (column.Equals("Title") == true)
@@ -606,20 +601,18 @@ namespace MyWindowsMediaPlayer
                 _listBibli = new ObservableCollection<Media>(from m in _listBibli orderby m.SizeDoc select m);
         }
 
+        /*Sort bibli*/
         private void ClickToSort(object sender, RoutedEventArgs e)
         {
-
             if (e.OriginalSource.GetType() == typeof(GridViewColumnHeader))
             {
-                GridViewColumnHeader headerClicked = e.OriginalSource as GridViewColumnHeader;
+                GridViewColumnHeader    headerClicked = e.OriginalSource as GridViewColumnHeader;
+                string                  column = headerClicked.Column.Header as string;
+                List<Media>             items = new List<Media>();
 
-                string column = headerClicked.Column.Header as string;
                 this.SortBibli(column);
-                List<Media> items = new List<Media>();
                 foreach(Media m in _listBibli)
-                {
                     items.Add(m);
-                }
                 Library.ItemsSource = items;
                 CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Library.ItemsSource);
                 PropertyGroupDescription groupDescription = new PropertyGroupDescription("Type");
@@ -627,34 +620,34 @@ namespace MyWindowsMediaPlayer
             }
         }
 
+        /*Kick element out of the current playlist*/
         private void KickOfList(object sender, MouseButtonEventArgs e)
         {
             if (this.PLayList.SelectedItem != null)
             {
                 int i;
-                i = PLayList.SelectedIndex;
 
+                i = PLayList.SelectedIndex;
                 if (i >= 0)
                 {
                     _listPlayList.RemoveAt(i);
                     this.PLayList.Items.Clear();
                     foreach (Media m in _listPlayList)
-                    {
                         this.PLayList.Items.Add(m.FileName);
-                    }
                 }
 
             }
         }
+
+        /*Play selected element from playlist*/
         private void PlayOfList(object sender, MouseButtonEventArgs e)
         {
             if (this.PLayList.SelectedItem != null)
             {
-                int i;
-                i = PLayList.SelectedIndex;
-
-                Media elem = _listPlayList.ElementAt(i);
+                int     i = PLayList.SelectedIndex;
+                Media   elem = _listPlayList.ElementAt(i);
                 MyMediaPlayer.Source = new Uri(elem.path);
+
                 if (!this._isPlaying)
                 {
                     this.ResizeMode = ResizeMode.CanResize;
@@ -663,6 +656,26 @@ namespace MyWindowsMediaPlayer
                     BtnPlay.ToolTip = "Suspendre";
                     this._isPlaying = true;
                 }
+            }
+        }
+
+        /*Play selected element from bibli*/
+        private void PlayOfBibli(object sender, MouseButtonEventArgs e)
+        {
+            if (this.Library.SelectedItem != null)
+            {
+                int i = Library.SelectedIndex;
+                Media elem = _listBibli.ElementAt(i);
+//                MyMediaPlayer.Source = new Uri(elem.path);
+
+/*                if (!this._isPlaying)
+                {
+                    this.ResizeMode = ResizeMode.CanResize;
+                    this.WindowState = WindowState.Maximized;
+                    MyMediaPlayer.Play();
+                    BtnPlay.ToolTip = "Suspendre";
+                    this._isPlaying = true;
+                }*/
             }
         }
     }
