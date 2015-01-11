@@ -336,6 +336,7 @@ namespace MyWindowsMediaPlayer
                 }
                 PLayList.Items.Clear();
                 PLayList.Visibility = Visibility.Hidden;
+                this.changeImageButton(BtnPlay, "../Images/Pause.png");
                 ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOff.png", UriKind.Relative));
             }
         }
@@ -358,6 +359,7 @@ namespace MyWindowsMediaPlayer
                     this._isPlaying = true;
                 }
                 Library.Visibility = Visibility.Hidden;
+                this.changeImageButton(BtnPlay, "../Images/Pause.png");
                 ImgLibrary.Source = new BitmapImage(new Uri(@"../Images/LibraryOff.png", UriKind.Relative));
             }
         }
