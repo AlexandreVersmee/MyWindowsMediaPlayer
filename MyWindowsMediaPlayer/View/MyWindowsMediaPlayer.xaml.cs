@@ -112,7 +112,10 @@ namespace MyWindowsMediaPlayer
                 DateTime date;
                 
                 //string comment;
+                List<Media> items = new List<Media>();
 
+                Debug.WriteLine("TEST");
+                /*http://www.wpf-tutorial.com/listview-control/listview-grouping/ */
                 // a renomer par dossier
                 _listBibli.Clear();
                 foreach (string s in filePaths)
@@ -131,7 +134,11 @@ namespace MyWindowsMediaPlayer
                     date = f.CreationTime;
                     Media med = new Media(s, album, title, duree, artist, filesize, date, filename);
                     _listBibli.Add(med);
+                    items.Add(med);
+                    Debug.WriteLine(title);
                 }
+
+                Library.ItemsSource = items;
 
                 ImgLibrary.Source = new BitmapImage(new Uri(@"../Images/LibraryOn.png", UriKind.Relative));
             }

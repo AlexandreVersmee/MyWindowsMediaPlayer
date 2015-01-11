@@ -164,11 +164,22 @@
             </ListBox>
 
             <!-- Library Media -->
-            <ListBox x:Name="Library" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" Background="#FFC7BFBF" Panel.ZIndex="4" MinWidth="318" MinHeight="257" HorizontalContentAlignment="Stretch" Margin="2,2,147,27" Visibility="Hidden">
-                <ListBox.Effect>
+            <ListView x:Name="Library" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" Background="#FFC7BFBF" Panel.ZIndex="4" MinWidth="318" MinHeight="257" HorizontalContentAlignment="Stretch" Margin="2,2,147,27">
+                <ListView.Effect>
                     <DropShadowEffect Direction="247" Color="#FF4F4F4F" BlurRadius="8"/>
-                </ListBox.Effect>
-            </ListBox>
+                </ListView.Effect>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Title" Width="50" DisplayMemberBinding="{Binding Title}" />
+                        <GridViewColumn Header="Artiste" Width="50" DisplayMemberBinding="{Binding Artist}" />
+                        <GridViewColumn Header="Durée" Width="50" DisplayMemberBinding="{Binding Duree}" />
+                        <GridViewColumn Header="Album" Width="50" DisplayMemberBinding="{Binding Album}" />
+                        <GridViewColumn Header="Nom du fichier" Width="50" DisplayMemberBinding="{Binding FileName}" />
+                        <GridViewColumn Header="Date" Width="50" DisplayMemberBinding="{Binding Date}" />
+                        <GridViewColumn Header="Taille document" Width="50" DisplayMemberBinding="{Binding SizeDoc}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </Grid>
     </Grid>
 </Window>

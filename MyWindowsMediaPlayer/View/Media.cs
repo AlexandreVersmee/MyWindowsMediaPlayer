@@ -10,7 +10,7 @@ namespace MyWindowsMediaPlayer
     {
         public string path { get; set; }
         public string album { get; set; }
-        public string titre { get; set; }
+        public string title { get; set; }
         public string artist { get; set; }
         public DateTime creat { get; set; }
         public TimeSpan duration { get; set; }
@@ -22,7 +22,7 @@ namespace MyWindowsMediaPlayer
             this.filename = filename;
             this.path = path;
             this.album = album;
-            this.titre = titre;
+            this.title = titre;
             this.duration = duration;
             this.artist = artist;
             this.size = size;
