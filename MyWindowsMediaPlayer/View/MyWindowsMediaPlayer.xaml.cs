@@ -70,14 +70,9 @@ namespace MyWindowsMediaPlayer
         #endregion
 
         /* Menu */
-        #region Menu
-        private void ExitClick(object sender, RoutedEventArgs e)
-        {
-            System.Environment.Exit(0);
-        }
-
-        
-
+        #region TogglePlayList ToggleLibrary
+      
+        /*Pop of playlist screen*/
         private void TogglePlayList(object sender, RoutedEventArgs e)
         {
             if (PLayList.Visibility == Visibility.Visible)
@@ -96,6 +91,8 @@ namespace MyWindowsMediaPlayer
                 ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOn.png", UriKind.Relative));
             }
         }
+
+        /*Pop of library screen*/
         private void ToggleLibrary(object sender, RoutedEventArgs e)
         {
             try
@@ -107,10 +104,6 @@ namespace MyWindowsMediaPlayer
                 }
                 else
                 {
-                    Library.Visibility = Visibility.Visible;
-                    //Récupère les fichiers du dossier music
-                    string[] filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic), "*.mp3", SearchOption.AllDirectories);
-
                     string Title;
                     string Artist;
                     EType Type;
@@ -120,10 +113,11 @@ namespace MyWindowsMediaPlayer
                     DateTime Date;
                     long SizeDoc;
 
-
+                    Library.Visibility = Visibility.Visible;
+                    //Récupère les fichiers du dossier music
+                    string[] filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic), "*.mp3", SearchOption.AllDirectories);
                     //string comment;
                     List<Media> items = new List<Media>();
-
 
                     // a renomer par dossier
                     _listBibli.Clear();
@@ -145,12 +139,11 @@ namespace MyWindowsMediaPlayer
                         Media med = new Media(s, Album, Title, Duree, Artist, SizeDoc, Date, FileName, Type);
                         _listBibli.Add(med);
                         items.Add(med);
-
                     }
                     Library.ItemsSource = items;
-
                     //Récupère les fiches du dossier Photos
                     filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "*.jpg", SearchOption.AllDirectories);
+
                     foreach (string s in filePaths)
                     {
                         FileInfo f = new FileInfo(s);
@@ -172,18 +165,15 @@ namespace MyWindowsMediaPlayer
                         Debug.WriteLine(med.Type);
                     }
 
-
-
                     Library.ItemsSource = items;
                     //Récupère les fichiers du dossier Videos
                     filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "*.mp4", SearchOption.AllDirectories);
                     foreach (string s in filePaths)
                     {
                         FileInfo f = new FileInfo(s);
-
                         TagLib.File tagFile = TagLib.File.Create(s);
-
                         Artist = "";
+
                         if (tagFile.Tag.AlbumArtists.Length > 0)
                             Artist = tagFile.Tag.AlbumArtists[0];
                         Album = tagFile.Tag.Album;
@@ -195,18 +185,14 @@ namespace MyWindowsMediaPlayer
                         Type = EType.Video;
                         Media med = new Media(s, Album, Title, Duree, Artist, SizeDoc, Date, FileName, Type);
                         _listBibli.Add(med);
-
                         items.Add(med);
                         Debug.WriteLine(med.Type);
                     }
 
                     Library.ItemsSource = items;
-
-
                     CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Library.ItemsSource);
                     PropertyGroupDescription groupDescription = new PropertyGroupDescription("Type");
                     view.GroupDescriptions.Add(groupDescription);
-
                     ImgLibrary.Source = new BitmapImage(new Uri(@"../Images/LibraryOn.png", UriKind.Relative));
                 }
             }
@@ -215,9 +201,6 @@ namespace MyWindowsMediaPlayer
                 Debug.WriteLine(exp);
             }
         }
-
-       
-
         #endregion
 
         /* Playlist / Bibli Functions */
@@ -452,6 +435,12 @@ namespace MyWindowsMediaPlayer
 
         /* Buttons / Slidebar Functions  */
         #region Buttons / Slidebar Functions
+
+        /*Button Exit*/
+        private void ExitClick(object sender, RoutedEventArgs e)
+        {
+            System.Environment.Exit(0);
+        }
 
         /*Button sort bibli*/
         private void ClickToSort(object sender, RoutedEventArgs e)
