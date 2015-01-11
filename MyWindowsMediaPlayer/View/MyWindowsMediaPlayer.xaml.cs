@@ -677,18 +677,18 @@ namespace MyWindowsMediaPlayer
         {
             if (this.Library.SelectedItem != null)
             {
-                int i = Library.SelectedIndex;
-                Media elem = _listBibli.ElementAt(i);
-//                MyMediaPlayer.Source = new Uri(elem.path);
+                int     i = Library.SelectedIndex;
+                Media   elem = _listBibli.ElementAt(i);
+                MyMediaPlayer.Source = new Uri(elem.path);
 
-/*                if (!this._isPlaying)
+                if (!this._isPlaying)
                 {
                     this.ResizeMode = ResizeMode.CanResize;
                     this.WindowState = WindowState.Maximized;
                     MyMediaPlayer.Play();
                     BtnPlay.ToolTip = "Suspendre";
                     this._isPlaying = true;
-                }*/
+                }
             }
         }
     }

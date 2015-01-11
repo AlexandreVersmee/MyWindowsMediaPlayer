@@ -165,7 +165,7 @@
 
             <!-- Library Media -->
 
-            <ListView x:Name="Library" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" Background="#FFC7BFBF" Panel.ZIndex="4" MinWidth="318" MinHeight="257" HorizontalContentAlignment="Stretch" Margin="2,2,147,27" GridViewColumnHeader.Click="ClickToSort" Visibility="Hidden">
+            <ListView x:Name="Library" MouseDoubleClick="PlayOfBibli" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" Background="#FFC7BFBF" Panel.ZIndex="4" MinWidth="318" MinHeight="257" HorizontalContentAlignment="Stretch" Margin="2,2,147,27" GridViewColumnHeader.Click="ClickToSort" Visibility="Hidden">
 
                 <ListView.Effect>
                     <DropShadowEffect Direction="247" Color="#FF4F4F4F" BlurRadius="8"/>
