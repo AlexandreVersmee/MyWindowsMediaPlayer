@@ -98,6 +98,33 @@ namespace MyWindowsMediaPlayer
             else
             {
                 Library.Visibility = Visibility.Visible;
+                /////////////////////////////////////////////////////////////////////////////////////////////////
+                //Récupère les fichiers.mp3 du dossier music
+                string[] filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic), "*.mp3", SearchOption.AllDirectories);
+                //Cree le tag qui contient les infos du fichier
+                string artist;
+                string album;
+                string title;
+                string filename;
+                TimeSpan duree;
+                long   filesize;
+                DateTime date;
+                string comment;
+                foreach (string s in filePaths)
+                {
+
+                }
+                TagLib.File tagFile = TagLib.File.Create(filePaths[0]);
+                //Récupère les infos dans des strings
+//                string artist = tagFile.Tag.FirstAlbumArtist;
+  //              string album = tagFile.Tag.Album;
+    //            string title = tagFile.Tag.Title;
+      //          this.Library.Items.Add(artist);
+                /////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
                 ImgLibrary.Source = new BitmapImage(new Uri(@"../Images/LibraryOn.png", UriKind.Relative));
             }
         }
@@ -466,7 +493,7 @@ namespace MyWindowsMediaPlayer
 
             //Récupère les fichiers.mp3 du dossier music
             string[] filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic), "*.mp3", SearchOption.AllDirectories);
-            Debug.Write(filePaths[0]);
+            //Debug.Write(filePaths[0]);
             //Cree le tag qui contient les infos du fichier
             TagLib.File tagFile = TagLib.File.Create(filePaths[0]);
             //Récupère les infos dans des strings
