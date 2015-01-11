@@ -443,6 +443,7 @@ namespace MyWindowsMediaPlayer
                     this.PLayList.Items.Clear();
                     foreach(Media m in p)
                     {
+                        _listPlayList.Add(m);
                         this.PLayList.Items.Add(m.filename);
                     }
                     this.PLayList.Visibility = Visibility.Visible;
@@ -475,13 +476,18 @@ namespace MyWindowsMediaPlayer
             {
                 int i;
                 i = PLayList.SelectedIndex;
+
+                Debug.WriteLine(i);
+                Debug.WriteLine(_listPlayList.Count);
+                Debug.WriteLine(this.PLayList.Items.Count);
+
                 if (i >= 0)
                 {
                     _listPlayList.RemoveAt(i);
                     this.PLayList.Items.Clear();
                     foreach (Media m in _listPlayList)
                     {
-                        this.PLayList.Items.Add(m.path);
+                        this.PLayList.Items.Add(m.filename);
                     }
                 }
 
