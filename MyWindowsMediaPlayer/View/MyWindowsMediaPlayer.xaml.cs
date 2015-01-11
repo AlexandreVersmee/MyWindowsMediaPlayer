@@ -220,13 +220,160 @@ namespace MyWindowsMediaPlayer
 
         #endregion
 
+        /* Playlist / Bibli Functions */
+        #region AddInPlayList SavePlayList OpenPlayList KickOfList ...
 
-        /* Playlist Function */
-        #region Playlist Function
+        /*Add current file in playlist*/
+        private void AddInPlayList(object sender, RoutedEventArgs e)
+        {
+            if (MyMediaPlayer.Source != null)
+            {
+                string currentpath = MyMediaPlayer.Source.LocalPath;
 
+                try
+                {
+                    TagLib.File tagFile = TagLib.File.Create(currentpath);
+                    FileInfo f = new FileInfo(currentpath);
+                    string filename = System.IO.Path.GetFileNameWithoutExtension(f.Name);
+                    string album = tagFile.Tag.Album;
+                    string titre = tagFile.Tag.Title;
+                    TimeSpan duration = tagFile.Properties.Duration;
+                    string artist = "";
 
+                    if (tagFile.Tag.AlbumArtists.Length > 0)
+                        artist = tagFile.Tag.AlbumArtists[0];
+
+                    long size = f.Length;
+                    DateTime creat = f.CreationTime;
+                    Media med = new Media(currentpath, album, titre, duration, artist, size, creat, filename, EType.Music);
+
+                    _listPlayList.Add(med);
+                    this.PLayList.Items.Clear();
+                    foreach (Media m in _listPlayList)
+                        this.PLayList.Items.Add(m.FileName);
+                    this.PLayList.Visibility = Visibility.Visible;
+                    ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOn.png", UriKind.Relative));
+                }
+                catch (Exception exp)
+                {
+                    System.Windows.Forms.MessageBox.Show("Not supported Media");
+                }
+            }
+        }
+
+        /*Save the current playlist*/
+        private void SavePlayList(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog box = new SaveFileDialog();
+            box.FileName = "Document";
+            box.DefaultExt = ".xml";
+            box.Filter = "Playlist file (.xml)|*.xml";
+            Nullable<bool> result = box.ShowDialog();
+
+            if (result == true)
+            {
+                string filename = box.FileName;
+                XmlSerializer xs = new XmlSerializer(typeof(ObservableCollection<Media>));
+
+                using (StreamWriter wr = new StreamWriter(filename))
+                    xs.Serialize(wr, _listPlayList);
+            }
+        }
+
+        /*Open a playlist already saved */
+        private void OpenPlaylist(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog file = new OpenFileDialog();
+            string filterXml = "Document Xml (*.xml)|*.xml;";
+            bool? userClickedOk = file.ShowDialog();
+            file.Filter = filterXml;
+            file.Multiselect = false;
+
+            if (userClickedOk == true)
+            {
+                string ext = System.IO.Path.GetExtension(file.FileName);
+
+                if (ext.Equals(".xml") == true)
+                {
+                    XmlSerializer xs = new XmlSerializer(typeof(ObservableCollection<Media>));
+
+                    using (StreamReader rd = new StreamReader(file.FileName))
+                    {
+                        ObservableCollection<Media> p = xs.Deserialize(rd) as ObservableCollection<Media>;
+
+                        this.PLayList.Items.Clear();
+                        _listPlayList.Clear();
+                        foreach (Media m in p)
+                        {
+                            _listPlayList.Add(m);
+                            this.PLayList.Items.Add(m.FileName);
+                        }
+                        this.PLayList.Visibility = Visibility.Visible;
+                        ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOn.png", UriKind.Relative));
+                    }
+                }
+            }
+
+        }
+
+        /*Kick element out of the current playlist*/
+        private void KickOfList(object sender, MouseButtonEventArgs e)
+        {
+            if (this.PLayList.SelectedItem != null)
+            {
+                int i = PLayList.SelectedIndex;
+
+                if (i >= 0)
+                {
+                    _listPlayList.RemoveAt(i);
+                    this.PLayList.Items.Clear();
+                    foreach (Media m in _listPlayList)
+                        this.PLayList.Items.Add(m.FileName);
+                }
+
+            }
+        }
+
+        /*Play selected element from playlist*/
+        private void PlayOfList(object sender, MouseButtonEventArgs e)
+        {
+            if (this.PLayList.SelectedItem != null)
+            {
+                int i = PLayList.SelectedIndex;
+                Media elem = _listPlayList.ElementAt(i);
+                MyMediaPlayer.Source = new Uri(elem.path);
+
+                if (!this._isPlaying)
+                {
+                    this.ResizeMode = ResizeMode.CanResize;
+                    this.WindowState = WindowState.Maximized;
+                    MyMediaPlayer.Play();
+                    BtnPlay.ToolTip = "Suspendre";
+                    this._isPlaying = true;
+                }
+            }
+        }
+
+        /*Play selected element from bibli*/
+        private void PlayOfBibli(object sender, MouseButtonEventArgs e)
+        {
+            if (this.Library.SelectedItem != null)
+            {
+                int i = Library.SelectedIndex;
+                Media elem = _listBibli.ElementAt(i);
+                MyMediaPlayer.Source = new Uri(elem.path);
+
+                if (!this._isPlaying)
+                {
+                    this.ResizeMode = ResizeMode.CanResize;
+                    this.WindowState = WindowState.Maximized;
+                    MyMediaPlayer.Play();
+                    BtnPlay.ToolTip = "Suspendre";
+                    this._isPlaying = true;
+                }
+            }
+        }
         #endregion
-
 
         /* Media Element Functions */
         #region MediaFailed Drop MediaEnded MediaOpened
@@ -303,16 +450,35 @@ namespace MyWindowsMediaPlayer
         }
         #endregion
 
-        /* Buttons Functions  */
-        #region Buttons Functions
+        /* Buttons / Slidebar Functions  */
+        #region Buttons / Slidebar Functions
 
+        /*Button sort bibli*/
+        private void ClickToSort(object sender, RoutedEventArgs e)
+        {
+            if (e.OriginalSource.GetType() == typeof(GridViewColumnHeader))
+            {
+                GridViewColumnHeader headerClicked = e.OriginalSource as GridViewColumnHeader;
+                string column = headerClicked.Column.Header as string;
+                List<Media> items = new List<Media>();
+
+                this.SortBibli(column);
+                foreach (Media m in _listBibli)
+                    items.Add(m);
+                Library.ItemsSource = items;
+                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Library.ItemsSource);
+                PropertyGroupDescription groupDescription = new PropertyGroupDescription("Type");
+                view.GroupDescriptions.Add(groupDescription);
+            }
+        }
+
+        /*Button prev*/
         private void PreviousAction(object sender, RoutedEventArgs e)
         {
             MyMediaPlayer.Stop();
             _index += -1;
             if (_index <= 0)
                 _index = 0;
-
             if (_listPlayList.Count > 0)
             {
                 Media tmp = _listPlayList.ElementAt<Media>(_index);
@@ -322,22 +488,20 @@ namespace MyWindowsMediaPlayer
             }            
         }
 
+        /*Button next*/
         private void NextAction(object sender, RoutedEventArgs e)
         {
             MyMediaPlayer.Stop();
-
             if (this._isRandom == true)
             {
-                Random random = new Random();
+                Random  random = new Random();
                 _index = random.Next(0, _listPlayList.Count);
             }
             else
             {
                 _index += 1;
                 if (_index >= _listPlayList.Count)
-                {
                     _index = _listPlayList.Count - 1;
-                }
             }
             if (_listPlayList.Count > 0)
             {
@@ -348,7 +512,7 @@ namespace MyWindowsMediaPlayer
             }
         }
 
-
+        /*Button repeat*/
         private void RepeatClick(object sender, RoutedEventArgs e)
         {
             if (!this._isReplay)
@@ -363,6 +527,7 @@ namespace MyWindowsMediaPlayer
             }
         }
 
+        /*Button Random*/
         private void RandomClick(object sender, RoutedEventArgs e)
         {
             if (!this._isRandom)
@@ -377,11 +542,11 @@ namespace MyWindowsMediaPlayer
             }
         }
 
+        /*Button Play*/
         private void PlayClick(object sender, RoutedEventArgs e)
         {
             if (!this._isPlaying)
             {
-
                     MyMediaPlayer.Play();
                     this.changeImageButton(BtnPlay, "../Images/Pause.png");
                     BtnPlay.ToolTip = "Suspendre";
@@ -396,6 +561,7 @@ namespace MyWindowsMediaPlayer
             }
         }
 
+        /*Button Mute*/
         private void MuteClick(object sender, RoutedEventArgs e)
         {
             if (!this._isMute)
@@ -414,13 +580,13 @@ namespace MyWindowsMediaPlayer
             }
         }
 
+        /*Button Open new media*/
         private void OpenClick(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog toto = new OpenFileDialog();
+            OpenFileDialog  toto = new OpenFileDialog();
 
             toto.Filter = _filter;
             toto.FilterIndex = 1;
-
             toto.Multiselect = false;
             bool? userClickedOk = toto.ShowDialog();
 
@@ -439,6 +605,7 @@ namespace MyWindowsMediaPlayer
             }
         }
         
+        /*Button Stop*/
         private void StopClick(object sender, RoutedEventArgs e)
         {
             MyMediaPlayer.Stop();
@@ -449,30 +616,32 @@ namespace MyWindowsMediaPlayer
             MyMediaPlayer.Close();
         }
 
+        /*Slidebar volume*/
         private void ChangeMediaVolume(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             MyMediaPlayer.Volume = (double)SliderVolume.Value;
         }
 
-        private void FullScreenClick(object sender, RoutedEventArgs e)
-        { }
-
+        /*Init Slidebar*/
         private void SliderProgressDragStarted(object sender, DragStartedEventArgs e)
         {
             _userIsDraggingSlider = true;
         }
 
+        /*Fin Slidebar*/
         private void SliderProgressDragCompleted(object sender, DragCompletedEventArgs e)
         {
             _userIsDraggingSlider = false;
             MyMediaPlayer.Position = TimeSpan.FromSeconds(SliderProgress.Value);
         }
 
+        /*Progres of slidbar*/
         private void SliderProgressValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             lblProgressStatus.Text = TimeSpan.FromSeconds(SliderProgress.Value).ToString(@"hh\:mm\:ss");
         }
 
+        /*Button Maximize screen Note Implemented Yet*/
         private void MaximizeClick(object sender, RoutedEventArgs e)
         {
             if (this.WindowState != WindowState.Maximized)
@@ -490,7 +659,7 @@ namespace MyWindowsMediaPlayer
         #endregion
 
         /* Tools */
-        #region changeImageButton
+        #region changeImageButton SortBibli
 
         /*Change image of button*/
         private void changeImageButton(Button button, string path)
@@ -499,101 +668,6 @@ namespace MyWindowsMediaPlayer
             {
                 Source = new BitmapImage(new Uri(path, UriKind.Relative)),
             };
-        }
-        #endregion
-
-
-        /*Add current file in playlist*/        
-        private void AddInPlayList(object sender, RoutedEventArgs e)
-        {
-            if (MyMediaPlayer.Source != null)
-            {
-                string  currentpath = MyMediaPlayer.Source.LocalPath;
-
-                try
-                {
-                    TagLib.File tagFile = TagLib.File.Create(currentpath);
-                    FileInfo f = new FileInfo(currentpath);
-                    string filename = System.IO.Path.GetFileNameWithoutExtension(f.Name);
-                    string album = tagFile.Tag.Album;
-                    string titre = tagFile.Tag.Title;
-                    TimeSpan duration = tagFile.Properties.Duration;
-                    string artist = "";
-
-                    if (tagFile.Tag.AlbumArtists.Length > 0)
-                        artist = tagFile.Tag.AlbumArtists[0];
-
-                    long size = f.Length;
-                    DateTime creat = f.CreationTime;
-                    Media med = new Media(currentpath, album, titre, duration, artist, size, creat, filename, EType.Music);
-
-                    _listPlayList.Add(med);
-                    this.PLayList.Items.Clear();
-                    foreach (Media m in _listPlayList)
-                        this.PLayList.Items.Add(m.FileName);
-                    this.PLayList.Visibility = Visibility.Visible;
-                    ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOn.png", UriKind.Relative));
-                }
-                catch (Exception exp)
-                {
-                    System.Windows.Forms.MessageBox.Show("Not supported Media");
-                }
-            }
-        }
-
-        /*Save the current playlist*/
-        private void SavePlayList(object sender, RoutedEventArgs e)
-        {
-            SaveFileDialog  box = new SaveFileDialog();
-            box.FileName = "Document";
-            box.DefaultExt = ".xml";
-            box.Filter = "Playlist file (.xml)|*.xml";
-            Nullable<bool> result = box.ShowDialog();
-
-            if (result == true)
-            {
-                string          filename = box.FileName;
-                XmlSerializer   xs = new XmlSerializer(typeof(ObservableCollection<Media>));
-
-                using (StreamWriter wr = new StreamWriter(filename))
-                    xs.Serialize(wr, _listPlayList);
-            }
-        }
-
-        /*Open a playlist already saved */
-        private void OpenPlaylist(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog  file = new OpenFileDialog();
-            string          filterXml = "Document Xml (*.xml)|*.xml;";
-            bool?           userClickedOk = file.ShowDialog();
-            file.Filter = filterXml;
-            file.Multiselect = false;
-
-            if (userClickedOk == true)
-            {
-                string ext = System.IO.Path.GetExtension(file.FileName);
-
-                if (ext.Equals(".xml") == true)
-                {
-                    XmlSerializer   xs = new XmlSerializer(typeof(ObservableCollection<Media>));
-
-                    using (StreamReader rd = new StreamReader(file.FileName))
-                    {
-                        ObservableCollection<Media> p = xs.Deserialize(rd) as ObservableCollection<Media>;
-
-                        this.PLayList.Items.Clear();
-                        _listPlayList.Clear();
-                        foreach (Media m in p)
-                        {
-                            _listPlayList.Add(m);
-                            this.PLayList.Items.Add(m.FileName);
-                        }
-                        this.PLayList.Visibility = Visibility.Visible;
-                        ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOn.png", UriKind.Relative));
-                    }
-                }
-            }
-
         }
 
         /*Sort column by asc*/
@@ -614,83 +688,7 @@ namespace MyWindowsMediaPlayer
             else if (column.Equals("SizeDoc") == true)
                 _listBibli = new ObservableCollection<Media>(from m in _listBibli orderby m.SizeDoc select m);
         }
-
-        /*Sort bibli*/
-        private void ClickToSort(object sender, RoutedEventArgs e)
-        {
-            if (e.OriginalSource.GetType() == typeof(GridViewColumnHeader))
-            {
-                GridViewColumnHeader    headerClicked = e.OriginalSource as GridViewColumnHeader;
-                string                  column = headerClicked.Column.Header as string;
-                List<Media>             items = new List<Media>();
-
-                this.SortBibli(column);
-                foreach(Media m in _listBibli)
-                    items.Add(m);
-                Library.ItemsSource = items;
-                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Library.ItemsSource);
-                PropertyGroupDescription groupDescription = new PropertyGroupDescription("Type");
-                view.GroupDescriptions.Add(groupDescription);
-            }
-        }
-
-        /*Kick element out of the current playlist*/
-        private void KickOfList(object sender, MouseButtonEventArgs e)
-        {
-            if (this.PLayList.SelectedItem != null)
-            {
-                int i = PLayList.SelectedIndex;
-
-                if (i >= 0)
-                {
-                    _listPlayList.RemoveAt(i);
-                    this.PLayList.Items.Clear();
-                    foreach (Media m in _listPlayList)
-                        this.PLayList.Items.Add(m.FileName);
-                }
-
-            }
-        }
-
-        /*Play selected element from playlist*/
-        private void PlayOfList(object sender, MouseButtonEventArgs e)
-        {
-            if (this.PLayList.SelectedItem != null)
-            {
-                int     i = PLayList.SelectedIndex;
-                Media   elem = _listPlayList.ElementAt(i);
-                MyMediaPlayer.Source = new Uri(elem.path);
-
-                if (!this._isPlaying)
-                {
-                    this.ResizeMode = ResizeMode.CanResize;
-                    this.WindowState = WindowState.Maximized;
-                    MyMediaPlayer.Play();
-                    BtnPlay.ToolTip = "Suspendre";
-                    this._isPlaying = true;
-                }
-            }
-        }
-
-        /*Play selected element from bibli*/
-        private void PlayOfBibli(object sender, MouseButtonEventArgs e)
-        {
-            if (this.Library.SelectedItem != null)
-            {
-                int     i = Library.SelectedIndex;
-                Media   elem = _listBibli.ElementAt(i);
-                MyMediaPlayer.Source = new Uri(elem.path);
-
-                if (!this._isPlaying)
-                {
-                    this.ResizeMode = ResizeMode.CanResize;
-                    this.WindowState = WindowState.Maximized;
-                    MyMediaPlayer.Play();
-                    BtnPlay.ToolTip = "Suspendre";
-                    this._isPlaying = true;
-                }
-            }
-        }
+        #endregion
     }
 
 }
