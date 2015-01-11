@@ -38,6 +38,7 @@ namespace MyWindowsMediaPlayer
 
         private ObservableCollection<Media> _listPlayList { set; get; }
         private ObservableCollection<Media> _listBibli { set; get; }
+        
 
         public MainWindow()
         {
@@ -59,7 +60,7 @@ namespace MyWindowsMediaPlayer
             this._listPlayList = new ObservableCollection<Media>();
             this._listBibli = new ObservableCollection<Media>();
 
-           
+
             this._isPlaying = false;
             this._isRandom = false;
             this._isReplay = false;
@@ -100,22 +101,23 @@ namespace MyWindowsMediaPlayer
             else
             {
                 Library.Visibility = Visibility.Visible;
-                //Récupère les fichiers.mp3 du dossier music
+                //Récupère les fichiers du dossier music
                 string[] filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic), "*.mp3", SearchOption.AllDirectories);
 
                 string Title;
                 string Artist;
+                string Type;
                 TimeSpan Duree;
                 string Album;
                 string FileName;
                 DateTime Date;
                 long SizeDoc;
+
                 
                 //string comment;
                 List<Media> items = new List<Media>();
+              
 
-                Debug.WriteLine("TEST");
-                /*http://www.wpf-tutorial.com/listview-control/listview-grouping/ */
                 // a renomer par dossier
                 _listBibli.Clear();
                 foreach (string s in filePaths)
@@ -132,14 +134,66 @@ namespace MyWindowsMediaPlayer
                     Duree = tagFile.Properties.Duration;
                     SizeDoc = f.Length;
                     Date = f.CreationTime;
-                    Media med = new Media(s, Album, Title, Duree, Artist, SizeDoc, Date, FileName);
+                    Type = "Music";
+                    Media med = new Media(s, Album, Title, Duree, Artist, SizeDoc, Date, FileName, Type);
                     _listBibli.Add(med);
                     items.Add(med);
-                    
+
                 }
 
                 Library.ItemsSource = items;
 
+                //Récupère les fiches du dossier Photos
+                filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "*.jpg", SearchOption.AllDirectories);
+                foreach (string s in filePaths)
+                {
+                    FileInfo f = new FileInfo(s);
+                    TagLib.File tagFile = TagLib.File.Create(s);
+
+                    Artist = "";
+                    if (tagFile.Tag.AlbumArtists.Length > 0)
+                        Artist = tagFile.Tag.AlbumArtists[0];
+                    Album = tagFile.Tag.Album;
+                    Title = tagFile.Tag.Title;
+                    FileName = System.IO.Path.GetFileNameWithoutExtension(f.Name);
+                    Duree = tagFile.Properties.Duration;
+                    SizeDoc = f.Length;
+                    Date = f.CreationTime;
+                    Type = "Picture";
+                    Media med = new Media(s, Album, Title, Duree, Artist, SizeDoc, Date, FileName, Type);
+                    _listBibli.Add(med);
+                    items.Add(med);
+                }
+
+                Library.ItemsSource = items;
+                //Récupère les fichiers du dossier Videos
+                filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "*.avi", SearchOption.AllDirectories);
+                foreach (string s in filePaths)
+                {
+                    FileInfo f = new FileInfo(s);
+                    TagLib.File tagFile = TagLib.File.Create(s);
+
+                    Artist = "";
+                    if (tagFile.Tag.AlbumArtists.Length > 0)
+                        Artist = tagFile.Tag.AlbumArtists[0];
+                    Album = tagFile.Tag.Album;
+                    Title = tagFile.Tag.Title;
+                    FileName = System.IO.Path.GetFileNameWithoutExtension(f.Name);
+                    Duree = tagFile.Properties.Duration;
+                    SizeDoc = f.Length;
+                    Date = f.CreationTime;
+                    Type = "Video";
+                    Media med = new Media(s, Album, Title, Duree, Artist, SizeDoc, Date, FileName, Type);
+                    _listBibli.Add(med);
+                    items.Add(med);
+                }
+
+                Library.ItemsSource = items;
+               
+               CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Library.ItemsSource);
+                PropertyGroupDescription groupDescription = new PropertyGroupDescription("Type");
+                view.GroupDescriptions.Add(groupDescription);
+              
                 ImgLibrary.Source = new BitmapImage(new Uri(@"../Images/LibraryOn.png", UriKind.Relative));
             }
         }
@@ -440,7 +494,7 @@ namespace MyWindowsMediaPlayer
 
                 long size = f.Length;
                 DateTime creat = f.CreationTime;
-                Media med = new Media(currentpath, album, titre, duration, artist, size, creat, filename);
+                Media med = new Media(currentpath, album, titre, duration, artist, size, creat, filename, "");
 
 
                 _listPlayList.Add(med);
