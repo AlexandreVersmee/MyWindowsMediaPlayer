@@ -36,7 +36,9 @@ namespace MyWindowsMediaPlayer
         private int _index = 0;
 
         private ObservableCollection<Media> _listPlayList { set; get; }
-        private ObservableCollection<Media> _listBibli { set; get; }
+        private ObservableCollection<Media> _listBibliMus { set; get; }
+        private ObservableCollection<Media> _listBibliVid { set; get; }
+        private ObservableCollection<Media> _listBibliPic { set; get; }
 
         public MainWindow()
         {
@@ -56,7 +58,9 @@ namespace MyWindowsMediaPlayer
 
             /*TMP*/
             this._listPlayList = new ObservableCollection<Media>();
-            this._listBibli = new ObservableCollection<Media>();
+            this._listBibliMus = new ObservableCollection<Media>();
+            this._listBibliVid = new ObservableCollection<Media>();
+            this._listBibliPic = new ObservableCollection<Media>();
 
             /* Fin TMP*/
 
@@ -85,7 +89,7 @@ namespace MyWindowsMediaPlayer
                 PLayList.Visibility = Visibility.Visible;
                 foreach (Media m in _listPlayList)
                 {
-                    this.PLayList.Items.Add(m.filename);
+                    this.PLayList.Items.Add(m.FileName);
                 }
                 ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOn.png", UriKind.Relative));
             }
@@ -100,24 +104,24 @@ namespace MyWindowsMediaPlayer
             else
             {
                 Library.Visibility = Visibility.Visible;
-                //Récupère les fichiers.mp3 du dossier music
+                //Récupère les fichiers du dossier music
                 string[] filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic), "*.mp3", SearchOption.AllDirectories);
 
                 string artist;
                 string album;
                 string title;
                 string filename;
+                string type;
                 TimeSpan duree;
                 long   filesize;
                 DateTime date;
                 
                 //string comment;
                 List<Media> items = new List<Media>();
+              
 
-                Debug.WriteLine("TEST");
-                /*http://www.wpf-tutorial.com/listview-control/listview-grouping/ */
                 // a renomer par dossier
-                _listBibli.Clear();
+                _listBibliMus.Clear();
                 foreach (string s in filePaths)
                 {
                     FileInfo f = new FileInfo(s);
@@ -132,14 +136,73 @@ namespace MyWindowsMediaPlayer
                     duree = tagFile.Properties.Duration;
                     filesize = f.Length;
                     date = f.CreationTime;
-                    Media med = new Media(s, album, title, duree, artist, filesize, date, filename);
-                    _listBibli.Add(med);
+                    type = "Music";
+                    Media med = new Media(s, album, title, duree, artist, filesize, date, filename, type);
+                    _listBibliMus.Add(med);
                     items.Add(med);
-                    Debug.WriteLine(title);
                 }
 
                 Library.ItemsSource = items;
 
+                //Récupère les fiches du dossier Photos
+                filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "*.bmp;*.jpg;*.png", SearchOption.AllDirectories);
+                foreach (string s in filePaths)
+                {
+                    FileInfo f = new FileInfo(s);
+                    TagLib.File tagFile = TagLib.File.Create(s);
+
+                    artist = "";
+                    if (tagFile.Tag.AlbumArtists.Length > 0)
+                        artist = tagFile.Tag.AlbumArtists[0];
+                    album = tagFile.Tag.Album;
+                    title = tagFile.Tag.Title;
+                    filename = System.IO.Path.GetFileNameWithoutExtension(f.Name);
+                    duree = tagFile.Properties.Duration;
+                    filesize = f.Length;
+                    date = f.CreationTime;
+                    type = "Picture";
+                    Media med = new Media(s, album, title, duree, artist, filesize, date, filename, type);
+                    _listBibliPic.Add(med);
+                    items.Add(med);
+                }
+
+                Library.ItemsSource = items;
+                //Récupère les fichiers du dossier Videos
+                filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "*.avi;*.mp4;*.wmw", SearchOption.AllDirectories);
+                foreach (string s in filePaths)
+                {
+                    FileInfo f = new FileInfo(s);
+                    TagLib.File tagFile = TagLib.File.Create(s);
+
+                    artist = "";
+                    if (tagFile.Tag.AlbumArtists.Length > 0)
+                        artist = tagFile.Tag.AlbumArtists[0];
+                    album = tagFile.Tag.Album;
+                    title = tagFile.Tag.Title;
+                    filename = System.IO.Path.GetFileNameWithoutExtension(f.Name);
+                    duree = tagFile.Properties.Duration;
+                    filesize = f.Length;
+                    date = f.CreationTime;
+                    type = "Video";
+                    Media med = new Media(s, album, title, duree, artist, filesize, date, filename, type);
+                    _listBibliVid.Add(med);
+                    items.Add(med);
+                }
+
+                Library.ItemsSource = items;
+               
+               CollectionView viewPic = (CollectionView)CollectionViewSource.GetDefaultView(Library.ItemsSource);
+                PropertyGroupDescription groupDescriptionPic = new PropertyGroupDescription("Type");
+                viewPic.GroupDescriptions.Add(groupDescriptionPic);
+
+                CollectionView viewVid = (CollectionView)CollectionViewSource.GetDefaultView(Library.ItemsSource);
+                PropertyGroupDescription groupDescriptionVid = new PropertyGroupDescription("Type");
+                viewVid.GroupDescriptions.Add(groupDescriptionVid);
+
+                CollectionView viewMus = (CollectionView)CollectionViewSource.GetDefaultView(Library.ItemsSource);
+                PropertyGroupDescription groupDescriptionMus = new PropertyGroupDescription("Type");
+                viewMus.GroupDescriptions.Add(groupDescriptionMus);
+              
                 ImgLibrary.Source = new BitmapImage(new Uri(@"../Images/LibraryOn.png", UriKind.Relative));
             }
         }
@@ -440,14 +503,14 @@ namespace MyWindowsMediaPlayer
 
                 long size = f.Length;
                 DateTime creat = f.CreationTime;
-                Media med = new Media(currentpath, album, titre, duration, artist, size, creat, filename);
+                Media med = new Media(currentpath, album, titre, duration, artist, size, creat, filename, "");
 
 
                 _listPlayList.Add(med);
                 this.PLayList.Items.Clear();
                 foreach (Media m in _listPlayList)
                 {
-                    this.PLayList.Items.Add(m.filename);
+                    this.PLayList.Items.Add(m.FileName);
                 }
                 this.PLayList.Visibility = Visibility.Visible;
                 ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOn.png", UriKind.Relative));
@@ -499,7 +562,7 @@ namespace MyWindowsMediaPlayer
                         foreach (Media m in p)
                         {
                             _listPlayList.Add(m);
-                            this.PLayList.Items.Add(m.filename);
+                            this.PLayList.Items.Add(m.FileName);
                         }
                         this.PLayList.Visibility = Visibility.Visible;
                         ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOn.png", UriKind.Relative));
@@ -538,7 +601,7 @@ namespace MyWindowsMediaPlayer
                     this.PLayList.Items.Clear();
                     foreach (Media m in _listPlayList)
                     {
-                        this.PLayList.Items.Add(m.filename);
+                        this.PLayList.Items.Add(m.FileName);
                     }
                 }
 
