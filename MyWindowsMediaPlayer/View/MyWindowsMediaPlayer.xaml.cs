@@ -83,7 +83,7 @@ namespace MyWindowsMediaPlayer
                 PLayList.Visibility = Visibility.Visible;
                 foreach (Media m in _listPlayList)
                 {
-                    this.PLayList.Items.Add(m.path);
+                    this.PLayList.Items.Add(m.filename);
                 }
                 ImgPlayList.Source = new BitmapImage(new Uri(@"../Images/PlayListOn.png", UriKind.Relative));
             }
