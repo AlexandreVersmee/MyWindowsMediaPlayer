@@ -120,7 +120,7 @@
                         <TranslateTransform X="15"/>
                     </TransformGroup>
                 </Button.RenderTransform>
-                <Image Source="/MyWindowsMediaPlayer;component/Images/Left.png" />
+                <Image Source="/MyWindowsMediaPlayer;component/Images/Previous.png" />
             </Button>
             <Button x:Name="BtnPlay" HorizontalAlignment="Center" Height="41" Margin="183,2,199,2" VerticalAlignment="Center" Width="40" BorderBrush="White" Panel.ZIndex="1" OpacityMask="Black" ToolTip="Lire" Grid.Column="2" Grid.Row="3" BorderThickness="0" Background="{x:Null}" Click="PlayClick" RenderTransformOrigin="0.5,0.5">
                 <Button.RenderTransform>
@@ -142,7 +142,7 @@
                         <TranslateTransform X="15"/>
                     </TransformGroup>
                 </Button.RenderTransform>
-                <Image Source="/MyWindowsMediaPlayer;component/Images/Right.png" />
+                <Image Source="../Images/Next.png" />
             </Button>
             <Button x:Name="BtnSound" Grid.Column="2" HorizontalAlignment="Left" Height="26" Margin="277,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="28" BorderBrush="White" BorderThickness="0" Background="{x:Null}" Click="MuteClick" ToolTip="Volume">
                 <Image Source="../Images/Volume.png" />
