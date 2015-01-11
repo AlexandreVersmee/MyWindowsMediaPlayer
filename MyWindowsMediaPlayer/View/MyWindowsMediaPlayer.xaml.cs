@@ -35,7 +35,8 @@ namespace MyWindowsMediaPlayer
 
         private int _index = 0;
 
-        private ObservableCollection<Media> _listPlayList { set; get;}
+        private ObservableCollection<Media> _listPlayList { set; get; }
+        private ObservableCollection<Media> _listBibli { set; get; }
 
         public MainWindow()
         {
@@ -55,6 +56,7 @@ namespace MyWindowsMediaPlayer
 
             /*TMP*/
             this._listPlayList = new ObservableCollection<Media>();
+            this._listBibli = new ObservableCollection<Media>();
 
             /* Fin TMP*/
 
@@ -98,10 +100,9 @@ namespace MyWindowsMediaPlayer
             else
             {
                 Library.Visibility = Visibility.Visible;
-                /////////////////////////////////////////////////////////////////////////////////////////////////
                 //Récupère les fichiers.mp3 du dossier music
                 string[] filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic), "*.mp3", SearchOption.AllDirectories);
-                //Cree le tag qui contient les infos du fichier
+
                 string artist;
                 string album;
                 string title;
@@ -109,21 +110,28 @@ namespace MyWindowsMediaPlayer
                 TimeSpan duree;
                 long   filesize;
                 DateTime date;
-                string comment;
+                
+                //string comment;
+
+                // a renomer par dossier
+                _listBibli.Clear();
                 foreach (string s in filePaths)
                 {
+                    FileInfo f = new FileInfo(s);
+                    TagLib.File tagFile = TagLib.File.Create(s);
 
+                    artist = "";
+                    if (tagFile.Tag.AlbumArtists.Length > 0)
+                        artist = tagFile.Tag.AlbumArtists[0];
+                    album = tagFile.Tag.Album;
+                    title = tagFile.Tag.Title;
+                    filename = System.IO.Path.GetFileNameWithoutExtension(f.Name);
+                    duree = tagFile.Properties.Duration;
+                    filesize = f.Length;
+                    date = f.CreationTime;
+                    Media med = new Media(s, album, title, duree, artist, filesize, date, filename);
+                    _listBibli.Add(med);
                 }
-                TagLib.File tagFile = TagLib.File.Create(filePaths[0]);
-                //Récupère les infos dans des strings
-//                string artist = tagFile.Tag.FirstAlbumArtist;
-  //              string album = tagFile.Tag.Album;
-    //            string title = tagFile.Tag.Title;
-      //          this.Library.Items.Add(artist);
-                /////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
 
                 ImgLibrary.Source = new BitmapImage(new Uri(@"../Images/LibraryOn.png", UriKind.Relative));
             }
@@ -214,10 +222,13 @@ namespace MyWindowsMediaPlayer
             if (_index <= 0)
                 _index = 0;
 
-            Media tmp = _listPlayList.ElementAt<Media>(_index);
+            if (_listPlayList.Count > 0)
+            {
+                Media tmp = _listPlayList.ElementAt<Media>(_index);
 
-            MyMediaPlayer.Source = new Uri(tmp.path);
-            MyMediaPlayer.Play();            
+                MyMediaPlayer.Source = new Uri(tmp.path);
+                MyMediaPlayer.Play();
+            }            
         }
 
         private void NextAction(object sender, RoutedEventArgs e)
@@ -237,10 +248,13 @@ namespace MyWindowsMediaPlayer
                     _index = _listPlayList.Count - 1;
                 }
             }
-            Media tmp = _listPlayList.ElementAt<Media>(_index);
+            if (_listPlayList.Count > 0)
+            {
+                Media tmp = _listPlayList.ElementAt<Media>(_index);
 
-            MyMediaPlayer.Source = new Uri(tmp.path);
-            MyMediaPlayer.Play();
+                MyMediaPlayer.Source = new Uri(tmp.path);
+                MyMediaPlayer.Play();
+            }
         }
 
 
@@ -474,6 +488,7 @@ namespace MyWindowsMediaPlayer
                         ObservableCollection<Media> p = xs.Deserialize(rd) as ObservableCollection<Media>;
 
                         this.PLayList.Items.Clear();
+                        _listPlayList.Clear();
                         foreach (Media m in p)
                         {
                             _listPlayList.Add(m);
