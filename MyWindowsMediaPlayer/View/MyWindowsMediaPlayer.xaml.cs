@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Controls;
 using Microsoft.Win32;
 using System.Windows.Threading;
 using System.Windows.Controls.Primitives;
@@ -511,18 +512,20 @@ namespace MyWindowsMediaPlayer
 
         private void test(object sender, RoutedEventArgs e)
         {
+            Debug.Write("ziyyzefuizXXXXXXXXXXXXXXX");
+            //Library
             //ADD LIBRARY !!!!
 
             //Récupère les fichiers.mp3 du dossier music
-            string[] filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic), "*.mp3", SearchOption.AllDirectories);
+            //string[] filePaths = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic), "*.mp3", SearchOption.AllDirectories);
             //Debug.Write(filePaths[0]);
             //Cree le tag qui contient les infos du fichier
-            TagLib.File tagFile = TagLib.File.Create(filePaths[0]);
+            //TagLib.File tagFile = TagLib.File.Create(filePaths[0]);
             //Récupère les infos dans des strings
-            string artist = tagFile.Tag.FirstAlbumArtist;
-            string album = tagFile.Tag.Album;
-            string title = tagFile.Tag.Title;
-            Debug.Write(title);
+            //string artist = tagFile.Tag.FirstAlbumArtist;
+            //string album = tagFile.Tag.Album;
+            //string title = tagFile.Tag.Title;
+            //Debug.Write(title);
         }
 
         private void KickOfList(object sender, MouseButtonEventArgs e)
